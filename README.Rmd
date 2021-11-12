@@ -1,0 +1,42 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# nyclodging
+
+`nyclogding` contains shiny application and documentation for analyzing Airbnb listings in New York City in 2019. 
+
+<!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+<!-- badges: end -->
+
+The goal of nyclodging is to ...
+
+## Installation
+
+You can install the development version of nyclodging like so:
+
+``` r
+remotes::install_github("qiushiyan/nyclodging")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library(nyclodging)
+dplyr::glimpse(listings)
+```
+

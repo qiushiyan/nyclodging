@@ -28,7 +28,7 @@ jobs:
           
       - name: Install pkgdown template
         run: |
-          remotes::install_github("amirmasoudabdol/preferably", type = "source")
+          Rscript -e 'remotes::install_github("amirmasoudabdol/preferably", type = "source")'
 
       - name: Deploy package
         run: |

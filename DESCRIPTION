@@ -10,7 +10,7 @@ Imports:
     dplyr,
     DT,
     echarts4r,
-    fullPage,
+    fullPage (>= 0.1.1),
     ggplot2,
     glue,
     golem (>= 0.3.1),
@@ -31,3 +31,5 @@ Suggests:
     rmarkdown,
     knitr
 VignetteBuilder: knitr
+Remotes:  
+    RinteRface/fullPage

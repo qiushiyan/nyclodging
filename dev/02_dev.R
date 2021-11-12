@@ -16,9 +16,11 @@
 ## Dependencies ----
 ## Add one line by package you want to add as dependency
 golem::use_recommended_deps()
-for (pkg in c("dplyr", "tidyr", "ggplot2", "tmap", "sf", "echarts4r", "fullPage")) {
+for (pkg in c("dplyr", "tidyr", "ggplot2", "tmap", "sf", "echarts4r")) {
   usethis::use_package(pkg)
 }
+
+usethis::use_dev_package("fullPage", remote = "RinteRface/fullPage")
 
 ## Add modules ----
 ## Create a module infrastructure in R/

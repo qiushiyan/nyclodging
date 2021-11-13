@@ -2,7 +2,6 @@
 #'
 #' Includes measurements on host, room description, room type, reviews, 
 #' availability, geographic location. 
-#' source: https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data
 #'
 #' @format A 48,895 × 15 tibble :
 #' \describe{

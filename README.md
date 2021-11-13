@@ -12,6 +12,26 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 `nyclogding` contains shiny application and documentation for analyzing
 Airbnb listings in New York City in 2019.
 
+``` r
+nyclodging::listings
+#> # A tibble: 48,895 × 15
+#>    list_id list_description     host_id host_name neighbourhood_g… neighbourhood
+#>      <dbl> <chr>                  <dbl> <chr>     <chr>            <chr>        
+#>  1    2539 Clean & quiet apt h…    2787 John      Brooklyn         Kensington   
+#>  2    2595 Skylit Midtown Cast…    2845 Jennifer  Manhattan        Midtown      
+#>  3    3647 THE VILLAGE OF HARL…    4632 Elisabeth Manhattan        Harlem       
+#>  4    3831 Cozy Entire Floor o…    4869 LisaRoxa… Brooklyn         Clinton Hill 
+#>  5    5022 Entire Apt: Spaciou…    7192 Laura     Manhattan        East Harlem  
+#>  6    5099 Large Cozy 1 BR Apa…    7322 Chris     Manhattan        Murray Hill  
+#>  7    5121 BlissArtsSpace!         7356 Garon     Brooklyn         Bedford-Stuy…
+#>  8    5178 Large Furnished Roo…    8967 Shunichi  Manhattan        Hell's Kitch…
+#>  9    5203 Cozy Clean Guest Ro…    7490 MaryEllen Manhattan        Upper West S…
+#> 10    5238 Cute & Cozy Lower E…    7549 Ben       Manhattan        Chinatown    
+#> # … with 48,885 more rows, and 9 more variables: lat <dbl>, lon <dbl>,
+#> #   room_type <chr>, price <dbl>, min_nights <dbl>, reviews <dbl>,
+#> #   last_review_date <date>, reviews_per_month <dbl>, available_days <dbl>
+```
+
 ## Installation
 
 You can install the development version of nyclodging like so:
@@ -20,28 +40,17 @@ You can install the development version of nyclodging like so:
 remotes::install_github("qiushiyan/nyclodging")
 ```
 
-## Example
+## Usage
 
-This is a basic example which shows you how to solve a common problem:
+To start the shiny app locally
 
 ``` r
-library(nyclodging)
-dplyr::glimpse(listings)
-#> Rows: 48,895
-#> Columns: 15
-#> $ list_id             <dbl> 2539, 2595, 3647, 3831, 5022, 5099, 5121, 5178, 52…
-#> $ list_description    <chr> "Clean & quiet apt home by the park", "Skylit Midt…
-#> $ host_id             <dbl> 2787, 2845, 4632, 4869, 7192, 7322, 7356, 8967, 74…
-#> $ host_name           <chr> "John", "Jennifer", "Elisabeth", "LisaRoxanne", "L…
-#> $ neighbourhood_group <chr> "Brooklyn", "Manhattan", "Manhattan", "Brooklyn", …
-#> $ neighbourhood       <chr> "Kensington", "Midtown", "Harlem", "Clinton Hill",…
-#> $ lat                 <dbl> 40.64749, 40.75362, 40.80902, 40.68514, 40.79851, …
-#> $ lon                 <dbl> -73.97237, -73.98377, -73.94190, -73.95976, -73.94…
-#> $ room_type           <chr> "private room", "entire room", "private room", "en…
-#> $ price               <dbl> 149, 225, 150, 89, 80, 200, 60, 79, 79, 150, 135, …
-#> $ min_nights          <dbl> 1, 1, 3, 1, 10, 3, 45, 2, 2, 1, 5, 2, 4, 2, 90, 2,…
-#> $ reviews             <dbl> 9, 45, 0, 270, 9, 74, 49, 430, 118, 160, 53, 188, …
-#> $ last_review_date    <date> 2018-10-19, 2019-05-21, NA, 2019-07-05, 2018-11-1…
-#> $ reviews_per_month   <dbl> 0.21, 0.38, NA, 4.64, 0.10, 0.59, 0.40, 3.47, 0.99…
-#> $ available_days      <dbl> 365, 355, 365, 194, 0, 129, 0, 220, 0, 188, 6, 39,…
+nyclodging::run_app()
 ```
+
+## Source
+
+-   Inside Airbnb public data <http://insideairbnb.com/>
+
+-   Kaggle Dataset
+    <https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data>

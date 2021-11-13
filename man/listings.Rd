@@ -34,7 +34,6 @@ listings
 }
 \description{
 Includes measurements on host, room description, room type, reviews, 
-availability, geographic location. 
-source: https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data
+availability, geographic location.
 }
 \keyword{datasets}

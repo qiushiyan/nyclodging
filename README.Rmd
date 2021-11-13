@@ -9,7 +9,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "100%",
+  collapse = TRUE
 )
 ```
 
@@ -22,6 +23,12 @@ knitr::opts_chunk$set(
 `nyclogding` contains shiny application and documentation for analyzing Airbnb listings in New York City in 2019. 
 
 
+```{r}
+nyclodging::listings
+```
+
+
+
 
 ## Installation
 
@@ -31,12 +38,19 @@ You can install the development version of nyclodging like so:
 remotes::install_github("qiushiyan/nyclodging")
 ```
 
-## Example
+## Usage
 
-This is a basic example which shows you how to solve a common problem:
+To start the shiny app locally
 
-```{r example}
-library(nyclodging)
-dplyr::glimpse(listings)
+```{r usage, eval = FALSE}
+nyclodging::run_app()
 ```
+
+
+## Source 
+
+- Inside Airbnb public data http://insideairbnb.com/
+
+- Kaggle Dataset https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data
+
 

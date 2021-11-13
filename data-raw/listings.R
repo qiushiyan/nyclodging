@@ -57,3 +57,4 @@ listings <- listings_raw %>%
   )
 
 usethis::use_data(listings)
+readr::write_csv(nyclodging::listings, here::here("inst", "extdata", "listings.csv"))

@@ -18,6 +18,7 @@ Imports:
     pkgload,
     sf,
     shiny (>= 1.7.1),
+    styler,
     tidyr,
     tmap
 Encoding: UTF-8
@@ -31,5 +32,5 @@ Suggests:
     rmarkdown,
     knitr
 VignetteBuilder: knitr
-Remotes:  
+Remotes: 
     RinteRface/fullPage

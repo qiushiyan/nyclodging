@@ -2,7 +2,7 @@
 #' @importFrom styler style_text
 #' @import shiny
 #' @param text 
-
+#' @noRd
 modal <- function(text) {
   modalDialog(
     tagList(
@@ -22,6 +22,7 @@ modal <- function(text) {
 #' make nav menu
 #' @importFrom htmltools tags 
 #' @importFrom glue glue
+#' @noRd
 nav_ <- function(name, x) {
   tags$nav(
     class="navbar navbar-expand-lg fixed-top ", 
@@ -67,6 +68,7 @@ nav_ <- function(name, x) {
 
 #' @importFrom htmltools tags 
 #' @importFrom glue glue 
+#' @noRd
 nav_item <- function(label, id) {
   tags$li(
     class="nav-item",

@@ -9,12 +9,9 @@
 #' @importFrom shiny NS tagList 
 #' @import echarts4r
 #' @import dplyr 
-#' @import echarts4r.maps
-#' @importFrom waiter autoWaiter
 mod_gallery_ui <- function(id){
   ns <- NS(id)
   tagList(
-    autoWaiter(), 
     col_12(h2("Graph Gallery")),
     col_8(
       echarts4rOutput(ns("room_type_bar"), height = "50vh")

@@ -4,6 +4,7 @@
 #' @import sf
 #' @import echarts4r
 #' @importFrom R6 R6Class
+#' @noRd
 PlotManager <- R6::R6Class(
   "plotting manager", 
   public = list(

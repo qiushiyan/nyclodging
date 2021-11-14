@@ -21,7 +21,8 @@ Imports:
     shiny (>= 1.7.1),
     styler,
     tidyr,
-    tmap
+    tmap,
+    waiter
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.2

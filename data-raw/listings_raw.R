@@ -27,4 +27,3 @@ if (is.null(out$result)) {
   listings_raw <- out$result
 }
 
-usethis::use_data(listings_raw, internal = TRUE, overwrite = TRUE)

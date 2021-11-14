@@ -3,17 +3,55 @@
 #' @param request Internal parameter for `{shiny}`. 
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @importFrom waiter use_waiter
 #' @noRd
 app_ui <- function(request) {
-  
-  
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
     bootstrapLib(bslib::bs_theme(bootswatch = "yeti")), 
+    use_waiter(), 
     # Your application UI logic 
     tagList(
-      mod_explore_ui("explore")
+      nav_(
+        "Explore Airbnb listings in NYC",
+        c(
+          "dataset" = "Dataset",
+          "distribution" = "Distribution",
+          "relationship" = "Relationship",
+          "spatial" = "Spatial Analysis",
+          "text" = "Text Analysis",
+          "gallery" = "Gallery" 
+          
+        )
+      ), 
+      tags$div(
+        class = "container", 
+        fluidRow(
+          id = "dataset",
+          mod_dataset_ui("dataset_about")
+        ) %>% undisplay(), 
+        fluidRow(
+          id = "distribution", 
+          mod_viz_ui("viz_distribution", "dist")
+        ) %>% undisplay(),
+        fluidRow(
+          id = "relationship", 
+          mod_viz_ui("viz_relationship", "relation")
+        ) %>% undisplay(),
+        fluidRow(
+          id = "spatial", 
+          mod_viz_ui("viz_spatial", "spatial")
+        ) %>% undisplay(),
+        fluidRow(
+          id = "text", 
+          mod_viz_ui("viz_text", "text")
+        ) %>% undisplay(),
+        fluidRow(
+          id = "gallery",
+          mod_gallery_ui("gallery"), 
+        ) %>% undisplay() 
+      )
     )
   )
 }
@@ -59,7 +97,8 @@ golem_add_external_resources <- function(){
       type="text/css", 
       href="www/custom.css"
     ), 
-    tags$script(src="www/script.js")
+    tags$script(src = "www/script.js"),
+    tags$script(src = "www/utils.js"),
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert() 
   )

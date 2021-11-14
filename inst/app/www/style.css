@@ -1,6 +1,10 @@
  
+ summary:focus { 
+  outline: none 
+}
+ 
 /* background color of the navbar */
-.navbar{ background: white;}
+.navbar{ background: #f4f4f4;}
 
 /*Change the color of the link + put hand on hover */
 .nav-link , .navbar-brand{ color: #000000; cursor: pointer;}

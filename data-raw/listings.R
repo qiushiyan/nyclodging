@@ -58,3 +58,40 @@ listings <- listings_raw %>%
 
 usethis::use_data(listings)
 readr::write_csv(nyclodging::listings, here::here("inst", "extdata", "listings.csv"))
+
+# internal data 
+# available plotting variables 
+plot_vars <- colnames(listings[, -(1:4)])
+
+# available group variables 
+group_vars <- c("neighbourhood_group", 
+                "neighbourhood", 
+                "room_type", 
+                "price", 
+                "min_nights", 
+                "reviews", 
+                "reviews_per_month",
+                "available_days")
+
+# categorize numerical variables for graph gallery 
+listings_cut <- listings %>% 
+  mutate(
+    price_cut = cut(price, c(0, 100, 200, 300, 400, 500, Inf)),
+    min_nights_cut = case_when(
+      min_nights == 1 ~ "1 day",
+      min_nights <= 3 ~ "2 to 3 days",
+      min_nights <= 7 ~ "4 to 7 days", 
+      min_nights >= 7 ~ "less than 7 days"
+    ), 
+    reviews_cut = cut(reviews, c(0, 20, 50, 100, Inf)), 
+    available_days_cut = case_when(
+      available_days <= 7 ~ "less than a week", 
+      available_days <= 30 ~ "less than a month", 
+      available_days <= 90 ~ "less than 3 months", 
+      available_days <= 180 ~ "less than half year", 
+      available_days <= 360 ~ "more than half year", 
+      available_days > 360 ~ "all available"
+    )
+  )
+
+usethis::use_data(listings_raw, listings_cut, plot_vars, group_vars, internal = TRUE, overwrite = TRUE)

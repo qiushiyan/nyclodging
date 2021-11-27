@@ -11,7 +11,7 @@
 mod_dataset_ui <- function(id){
   ns <- NS(id)
   tagList(
-    col_10(
+    col_12(
       includeMarkdown(
         app_sys("app/www/dataset.md")
       ),

@@ -6,6 +6,7 @@ Description: Includes measurements on host, room description, room type, reviews
 License: MIT + file LICENSE
 Imports: 
     attempt,
+    colourvalues,
     config (>= 0.3.1),
     dplyr,
     DT,

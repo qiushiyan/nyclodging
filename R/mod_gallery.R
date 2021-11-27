@@ -7,11 +7,13 @@
 #' @noRd 
 #'
 #' @importFrom shiny NS tagList 
+#' @importFrom waiter autoWaiter
 #' @import echarts4r
 #' @import dplyr 
-mod_gallery_ui <- function(id){
+mod_gallery_ui <- function(id) {
   ns <- NS(id)
   tagList(
+    autoWaiter(ns(c("room_type_bar", "reviews_price_scatter"))), 
     col_12(h2("Graph Gallery")),
     col_8(
       echarts4rOutput(ns("room_type_bar"), height = "50vh")
@@ -50,6 +52,7 @@ mod_gallery_server <- function(id) {
         e_scatter(price) %>%
         e_loess(price ~ reviews) %>% 
         e_title("price vs. reviews", subtext = "n = 3000 sample") %>%
+        e_legend(show = FALSE) %>% 
         e_tooltip(trigger = "item",
                   formatter = htmlwidgets::JS("
                     function(params){

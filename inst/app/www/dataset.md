@@ -3,8 +3,10 @@
 
 <h2>About the dataset</h2>
 
-This application aims to explore and visualize Airbnb listings in NYC in 2019. It contains measurements on host, room description, room type, reviews, 
-availability, geographic location, etc. 
+<p>This application aims to explore and visualize Airbnb listings in NYC in 2019.</p> 
+
+<p>It contains measurements on host, room description, room type, reviews, 
+availability, geographic location, etc.</p>
 
 
 You can jump to other sections: 

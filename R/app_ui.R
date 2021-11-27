@@ -3,14 +3,15 @@
 #' @param request Internal parameter for `{shiny}`. 
 #'     DO NOT REMOVE.
 #' @import shiny
-#' @importFrom waiter use_waiter
+#' @importFrom waiter useWaiter useWaitress
 #' @noRd
 app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
     bootstrapLib(bslib::bs_theme(bootswatch = "yeti")), 
-    use_waiter(), 
+    useWaiter(), 
+    useWaitress(), 
     # Your application UI logic 
     tagList(
       nav_(
@@ -29,23 +30,23 @@ app_ui <- function(request) {
         class = "container", 
         fluidRow(
           id = "dataset",
-          mod_dataset_ui("dataset_about")
+          mod_dataset_ui("about")
         ) %>% undisplay(), 
         fluidRow(
           id = "distribution", 
-          mod_viz_ui("viz_distribution", "dist")
+          mod_dist_ui("dist")
         ) %>% undisplay(),
         fluidRow(
           id = "relationship", 
-          mod_viz_ui("viz_relationship", "relation")
+          mod_relation_ui("relation")
         ) %>% undisplay(),
         fluidRow(
           id = "spatial", 
-          mod_viz_ui("viz_spatial", "spatial")
+          mod_spatial_ui("spatial")
         ) %>% undisplay(),
         fluidRow(
           id = "text", 
-          mod_viz_ui("viz_text", "text")
+          mod_text_ui("text")
         ) %>% undisplay(),
         fluidRow(
           id = "gallery",

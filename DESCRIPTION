@@ -20,6 +20,7 @@ Imports:
     pkgload,
     sf,
     shiny (>= 1.7.1),
+    shinycssloaders,
     stringr,
     styler,
     tidyr,

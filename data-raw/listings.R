@@ -65,13 +65,7 @@ plot_vars <- colnames(listings[, -(1:4)])
 
 # available group variables 
 group_vars <- c("neighbourhood_group", 
-                "neighbourhood", 
-                "room_type", 
-                "price", 
-                "min_nights", 
-                "reviews", 
-                "reviews_per_month",
-                "available_days")
+                "room_type")
 
 # categorize numerical variables for graph gallery 
 listings_cut <- listings %>% 
@@ -93,5 +87,21 @@ listings_cut <- listings %>%
       available_days > 360 ~ "all available"
     )
   )
+# tokenized description group by price (<= 100 and higher)
+listings_words <- listings %>%
+  transmute(desc = stringr::str_to_lower(list_description),
+            price = case_when(
+              price <= 100 ~ "lower than 100", 
+              price > 100 ~ "higher than 100"
+            )) %>%
+  unnest_tokens(word, desc) %>% 
+  filter(!grepl("^\\d+$", word, )) %>% 
+  anti_join(stop_words) %>% 
+  group_by(price) %>%
+  count(word) %>% 
+  slice_max(order_by = n, n = 150) %>% 
+  ungroup()
 
-usethis::use_data(listings_raw, listings_cut, plot_vars, group_vars, internal = TRUE, overwrite = TRUE)
+
+
+usethis::use_data(listings_raw, listings_cut, listings_words, plot_vars, group_vars, internal = TRUE, overwrite = TRUE)

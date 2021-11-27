@@ -8,6 +8,8 @@
 #'
 #' @importFrom shiny NS tagList fluidRow
 #' @importFrom glue glue
+#' @importFrom dplyr pull 
+#' @importFrom colourvalues color_values
 #' @import ggplot2
 mod_dist_ui <- function(id) {
   ns <- NS(id)
@@ -24,27 +26,29 @@ mod_dist_ui <- function(id) {
   palettes <- colourvalues::colour_palettes()
 
 
-  dist_ui <- col_3(
+  select_ui <- col_3(
     h4("Visualize single-variable distribution"),
-    selectInput(ns("x"), "variable", 
-                choices = plot_vars, 
-                selected = "price"), 
-    selectInput(ns("dist_type"), 
+    selectInput(ns("x"), 
+                "variable", 
+                choices = c("", plot_vars), 
+                selected = NULL), 
+    selectInput(ns("type"), 
                 "plot type", 
-                choices = NULL,
+                choices = "",
                 selected = NULL),
-    selectInput(ns("dist_fill"),
-                "fill",
-                choices = NULL,
+    selectInput(ns("fill"),
+                "fill variable",
+                choices = "",
                 selected = NULL),
-    selectInput(ns("dist_scale"),
-                "scale",
-                choices = c("original", "log10"),
-                selected = "original"),
+    selectInput(ns("scale"),
+                "scale for x axis",
+                choices = c("original", "log10"), 
+                selected = "log10"),
     selectInput(
       ns("theme"),
       "theme", 
-      choices = themes
+      choices = themes,
+      selected = "pubu"
     ), 
     selectInput(
       ns("palette"),
@@ -79,7 +83,7 @@ mod_dist_ui <- function(id) {
 
   
   tagList(
-    dist_ui, 
+    select_ui, 
     plot_ui
   )
 
@@ -104,18 +108,35 @@ mod_dist_server <- function(id) {
     observeEvent( input$x , {
       if (is.numeric(listings[[input$x]])) {
         updateSelectInput(session, 
-                          "dist_type", 
+                          "type", 
                           choices = c("histogram", "density", "boxplot"),
                           selected = "histogram")
-        # use log 10 scales 
         
-      } else  {
         updateSelectInput(session, 
-                          "dist_type",
+                          "scale", 
+                          choices = c("original", "log10"), 
+                          selected =  "log10")
+    
+      } else  {
+        # only support bar plot and original axis for character variables 
+        updateSelectInput(session, 
+                          "type",
                           choices = "bar", 
                           selected = "bar", 
         )
+        
+        updateSelectInput(session, 
+                          "scale", 
+                          choices = "original", 
+                          selected = "original")
+
       }
+      
+      # update fill input so that it's not the same as x 
+      updateSelectInput(session, 
+                        "fill", 
+                        choices = c("", setdiff(group_vars, input$x)),
+                        selected = NULL)
     })
     
     
@@ -125,54 +146,82 @@ mod_dist_server <- function(id) {
     })
     
     # render plot action 
-    observeEvent( input$render , {
-        scale <- switch(input$dist_scale,
-                        "original" = list(
-                          fun = scale_x_continuous(),
-                          code = "scale_x_continuous()"
-                          ),
-                        "log10" = list(
-                          fun = scale_x_log10(), 
-                          code = "scale_x_log10()"
-                         )
-        )
+    observeEvent( input$render, {
+       if (is.numeric(listings[[input$x]])) {
+         xscale <- switch(
+           input$scale,
+           "original" = "scale_x_continuous", 
+           "log10" = "scale_x_log10"
+         )
+       } else {
+         xscale <- "scale_x_discrete"
+       }
+
+      type <- switch(input$type, 
+                       "histogram" = "geom_histogram", 
+                       "density" = "geom_density", 
+                       "boxplot" = "geom_boxplot",
+                       "bar" = "geom_bar")
         
         
-        if (input$dist_type == "histogram") {
-          if (is.null(input$dist_fill)) {
-            r$plot <- ggplot(listings, aes(.data[[input$x]])) +
-              geom_histogram() + 
-              scale$fun 
-            
-            r$code <- sprintf(
-              "ggplot(listings, aes(%s)) + 
-                geom_histogram() + 
-                %s
+      if (input$fill == "") {
+          r$plot <- ggplot(listings, aes(.data[[input$x]])) +
+            get(type)()
+          
+          r$code <- sprintf(
+            "ggplot(listings, aes(%s)) + 
+                %s()
             ", 
             input$x,
-            scale$code
+            type 
+          )
+        } 
+        else {
+          r$plot <- ggplot(listings, aes(.data[[input$x]], 
+                                         fill = .data[[input$fill]])) +
+            get(type)() + 
+            scale_fill_manual(
+              values = color_values(
+                1:length(unique(dplyr::pull(listings, .data[[input$fill]]))), 
+                palette = input$palette
+              ))
+          
+          r$code <- sprintf(
+            "ggplot(listings, aes(%s, fill = %s)) + 
+              %s() +
+              scale_color_manual(
+                values = color_values(
+                  1:length(unique(dplyr::pull(listings, %s))),
+                  palette = '%s' 
+                )
+              )", 
+            input$x, 
+            input$fill,  
+            type, 
+            input$fill, 
+            input$palette 
           )
         }
-      }
-      
-      r$plot <- r$plot +  
-        get(input$theme)()
-      
+    
+
+      r$plot <- r$plot +
+        get(input$theme)() +
+        get(xscale)()
+
       r$code <- sprintf(
-        '%s + %s()', 
-        r$code, input$theme
+        '%s + %s() + %s()',
+        r$code, input$theme, xscale
       )
-      
-      if (input$title != ""){
-        r$plot <- r$plot + 
+
+      if (input$title != "") {
+        r$plot <- r$plot +
           labs(title = input$title)
         r$code <- sprintf(
-          '%s +\n  labs(title = "%s")', 
+          '%s +\n  labs(title = "%s")',
           r$code, input$title
         )
       }
-    }
-  )
+   })
     
     
     output$plot <- renderPlot({

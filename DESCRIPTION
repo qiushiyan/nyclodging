@@ -20,8 +20,10 @@ Imports:
     pkgload,
     sf,
     shiny (>= 1.7.1),
+    stringr,
     styler,
     tidyr,
+    tidytext,
     tmap,
     waiter
 Encoding: UTF-8

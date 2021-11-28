@@ -10,6 +10,8 @@
 #' @importFrom waiter autoWaiter
 #' @import echarts4r
 #' @import dplyr 
+#' @import leaflet
+#' @importFrom glue glue
 mod_gallery_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -30,6 +32,12 @@ mod_gallery_ui <- function(id) {
     ), 
     col_6(
       echarts4rOutput(ns("wordcloud_high"))
+    ),
+    col_4(
+      echarts4rOutput(ns("cor_mat"))
+    ), 
+    col_8(
+      leafletOutput(ns("map"))
     )
   )
 }
@@ -38,8 +46,27 @@ mod_gallery_ui <- function(id) {
 #'
 #' @noRd 
 mod_gallery_server <- function(id) {
-  moduleServer( id, function(input, output, session){
+  moduleServer( id, function(input, output, session) {
     ns <- session$ns
+    
+    tag_map_title <- tags$style(HTML("
+      .leaflet-control.map-title { 
+        transform: translate(-50%,20%);
+        position: fixed !important;
+        left: 50%;
+        text-align: center;
+        padding-left: 10px; 
+        padding-right: 10px; 
+        background: rgba(255,255,255,0.75);
+        font-weight: bold;
+        font-size: 28px;
+      }
+    "))
+    
+    map_title <- tags$div(
+      tag_map_title, HTML("Listings over $1000")
+    )  
+    
 
     output$room_type_bar <- renderEcharts4r(
       listings_cut %>%
@@ -51,7 +78,8 @@ mod_gallery_server <- function(id) {
         e_bar(n) %>%
         e_title("price intervals for room type") %>%
         e_tooltip(trigger = "axis") %>% 
-        e_legend(orient = "vertical", right = "5", top = "10%")
+        e_legend(orient = "vertical", right = "5", top = "10%") %>% 
+        e_labels()
     )
     
     output$reviews_price_scatter <- renderEcharts4r(
@@ -115,8 +143,43 @@ mod_gallery_server <- function(id) {
                     ")) %>% 
       e_title("common words in description", subtext = "price higher than 100")
   )
-  })
-}
+  
+  output$cor_mat <- renderEcharts4r(
+    listings %>% 
+      na.omit() %>% 
+      select(!!plot_vars) %>% 
+      select(where(is.numeric)) %>%
+      cor() %>%
+      apply(1, round, 2) %>% 
+      e_charts() %>% 
+      e_correlations(order = "hclust") %>% 
+      e_tooltip() %>% 
+      e_legend(orient = "vertical", left = "5", top = "10%") %>% 
+      e_title("correlation matrix")
+  )
+  
+  output$map <- renderLeaflet(
+    listings %>%
+      mutate(label = glue("
+        <b>price</b>: {scales::dollar(price)}<br>
+        <b>description</b>: {list_description}<br>
+        <b>room type</b>: {room_type}<br>
+        <b>neighorboud</b>: {neighbourhood}<br>
+        <b>neighorboud group</b>: {neighbourhood_group}<br>
+        <b>reviews</b>: {reviews}<br>
+        <b>minimum nights</b>: {min_nights}<br>
+        <b>last review date</b>: {last_review_date}<br>
+        <b>list id</b>: {list_id}
+      ")) %>% 
+      filter(price >= 1000) %>% 
+      leaflet() %>% 
+      addTiles() %>% 
+      addProviderTiles(providers$Esri.WorldTopoMap) %>% 
+      addCircleMarkers(clusterOptions = markerClusterOptions(maxClusterRadius = 30),
+                       fill = ~ price, popup = ~ label) %>%
+      addControl(map_title, position = "topleft", className="map-title") 
+      )
+})}
     
 ## To be copied in the UI
 # mod_gallery_ui("gallery_ui_1")

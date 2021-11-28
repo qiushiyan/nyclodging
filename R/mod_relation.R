@@ -9,8 +9,44 @@
 #' @importFrom shiny NS tagList 
 mod_relation_ui <- function(id){
   ns <- NS(id)
+  
+  
+  select_ui <- col_3(
+    selectInput(ns("x"), "x", names_that_are("numeric")), 
+    selectInput(ns("y"), "y", names_that_are("numeric"))
+  )
+  
+  plot_ui <- col_9(
+    col_12(
+      actionButton(
+        ns("render"), 
+        "Render Plot", icon = icon("arrow-down")
+      ) %>%
+        tags$div(align = "center", style = "padding-left:2em"),
+      shinycssloaders::withSpinner(
+        plotOutput(ns("plot")) %>% 
+          tagAppendAttributes(
+            onclick = sprintf("setInputValue('%s', true)", ns("show"))
+          )
+      )
+    ),
+    HTML("&nbsp;"),
+    col_12(
+      tags$p(
+        "Click on the graph to see the code"
+      ) %>%
+        tags$div(align = "center")
+    ), 
+    col_12(
+      downloadButton(ns("dl")) %>%
+        tags$div(align = "right")
+    )
+  )
+  
+  
   tagList(
-    h1("relationship")
+    select_ui, 
+    plot_ui 
   )
 }
     
@@ -20,7 +56,16 @@ mod_relation_ui <- function(id){
 mod_relation_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
- 
+    
+    observeEvent( input$x , {
+      
+    })
+    
+    
+    output$plot <- renderPlot(
+      plot(cars)
+    )
+    
   })
 }
     

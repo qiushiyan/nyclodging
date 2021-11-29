@@ -7,13 +7,29 @@
 #' @noRd 
 #'
 #' @importFrom shiny NS tagList 
+#' @importfrom shinycssloaders withSpinner
+#' @importFrom ggstatsplot ggscatterstats grouped_ggscatterstats
 mod_relation_ui <- function(id){
   ns <- NS(id)
   
+  themes <- c("theme_bw", 
+              "theme_classic", 
+              "theme_dark",
+              "theme_gry", 
+              "theme_light",
+              "theme_linedraw",
+              "theme_minimal", 
+              "theme_void")
+  
   
   select_ui <- col_3(
-    selectInput(ns("x"), "x", names_that_are("numeric")), 
-    selectInput(ns("y"), "y", names_that_are("numeric"))
+    selectInput(ns("x"), "x", c("", names_that_are("numeric")), selected = NULL), 
+    selectInput(ns("y"), "y", c("", names_that_are("numeric")), selected = NULL),
+    selectInput(ns("xscale"), "scale for x axis", c("original", "log10"), selected = "log10"),
+    selectInput(ns("yscale"), "scale for y axis", c("original", "log10"), selected = "log10"), 
+    selectInput(ns("group"), "group by", c("", "room_type", "neighbourhood_group"), selected = NULL),
+    selectInput(ns("theme"), "theme", themes), 
+    textInput(ns("title"), "title", "")
   )
   
   plot_ui <- col_9(
@@ -23,8 +39,8 @@ mod_relation_ui <- function(id){
         "Render Plot", icon = icon("arrow-down")
       ) %>%
         tags$div(align = "center", style = "padding-left:2em"),
-      shinycssloaders::withSpinner(
-        plotOutput(ns("plot")) %>% 
+      withSpinner(
+        plotOutput(ns("plot"), height = "750px") %>% 
           tagAppendAttributes(
             onclick = sprintf("setInputValue('%s', true)", ns("show"))
           )
@@ -53,17 +69,141 @@ mod_relation_ui <- function(id){
 #' relation Server Functions
 #'
 #' @noRd 
-mod_relation_server <- function(id){
+mod_relation_server <- function(id) {
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
+    vars <- names_that_are("numeric")
+    
+    r <- rv(
+      plot = ggplot(listings), 
+      code = "ggplot(listings)"
+    )
+    
+    
     observeEvent( input$x , {
-      
+      if (input$x != "") {
+        updateSelectInput(session, 
+                          "y", 
+                          choices = c("", setdiff(vars, input$x)), 
+                          selected = isolate(input$y))
+      }
+      if (input$group != "") {
+        updateSelectInput(session, 
+                          "group", 
+                          choices = c("", "room_type", "neighbourhood_group"), 
+                          selected = NULL)
+      }
+    })
+    
+    observeEvent( input$y , {
+      if (input$y != "") {
+        updateSelectInput(session,
+                          "x", 
+                          choices = c("", setdiff(vars, input$y)), 
+                          selected = isolate(input$x))
+      }
+      if (input$group != "") {
+        updateSelectInput(session, 
+                          "group", 
+                          choices = c("", "room_type", "neighbourhood_group"), 
+                          selected = NULL)
+      }
+    })
+    
+    # show modal for plot code 
+    observeEvent( input$show , {
+      showModal(modal(r$code))
     })
     
     
-    output$plot <- renderPlot(
-      plot(cars)
+    observeEvent( input$render , {
+      xscale <- switch(
+        input$xscale,
+        "original" = "scale_x_continuous", 
+        "log10" = "scale_x_log10"
+      )
+      yscale <- switch(
+        input$yscale, 
+        "original" = "scale_x_continous",
+        "log10" = "scale_x_log10"
+      )
+      
+      if (input$group != "") {
+        r$plot <- grouped_ggscatterstats(
+          listings, 
+          x = !!input$x, 
+          y = !!input$y, 
+          grouping.var = !!input$group, 
+          ggplot.component = list(
+            get(xscale)(), 
+            get(yscale)()
+          ), 
+          ggtheme = get(input$theme)(), 
+          annotation.args = list(title = input$title),
+          plotgrid.args = list(ncol = 1)
+        ) 
+        
+        r$code <- sprintf("
+          ggstatsplot::grouped_ggscatterstats(
+            listings,
+            x = %s,
+            y = %s,
+            grouping.var = %s,
+            ggplot.component = list(
+              %s(),
+              %s()
+            ),
+            ggtheme = %s(),
+            annotation.args = list(title = '%s'),
+            plotgrid.args = list(ncol = 1)
+          )", input$x, input$y, input$group, xscale, yscale, input$theme, input$title
+        )
+        print("code for group")
+      } else {
+        r$plot <- ggscatterstats(
+          listings, 
+          x = !!input$x, 
+          y = !!input$y, 
+          ggplot.component = list(
+            get(xscale)(), 
+            get(yscale)()
+          ), 
+          ggtheme = get(input$theme)(), 
+          annotation.args = list(title = input$title),
+        )
+
+        r$code <- sprintf("
+          ggstatsplot::ggscatterstats(
+            listings,
+            x = %s,
+            y = %s,
+            ggplot.component = list(
+              %s(),
+              %s()
+            ),
+            ggtheme = %s(),
+            annotation.args = list(title = '%s')
+          )", input$x, input$y, xscale, yscale, input$theme, input$title)
+        print("code for non-group")
+        
+      }
+     })
+    
+    
+    
+    output$plot <- renderPlot({
+      r$plot
+    })
+    
+    
+    output$dl <- downloadHandler(
+      filename = function() {
+        paste('nyclodging', input$x, input$y, 'relationship.png', sep = "-")
+      },
+      content = function(con) {
+        ggsave(con, r$plot, device = "png", width = 14, height = 16)
+      }
     )
     
   })

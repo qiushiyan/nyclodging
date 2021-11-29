@@ -10,6 +10,7 @@
 #' @importFrom glue glue
 #' @importFrom dplyr pull 
 #' @importFrom colourvalues color_values
+#' @importFrom shinycssloaders withSpinner
 #' @import ggplot2
 mod_dist_ui <- function(id) {
   ns <- NS(id)
@@ -48,13 +49,12 @@ mod_dist_ui <- function(id) {
       ns("theme"),
       "theme", 
       choices = themes,
-      selected = "pubu"
     ), 
     selectInput(
       ns("palette"),
       "palette", 
       choices = palettes,
-      selected = "viridis"
+      selected = "pubu"
     ), 
     textInput(
       ns("title"),
@@ -71,7 +71,7 @@ mod_dist_ui <- function(id) {
         "Render Plot", icon = icon("arrow-down")
       ) %>%
         tags$div(align = "center", style = "padding-left:2em"),
-      shinycssloaders::withSpinner(
+      withSpinner(
         plotOutput(ns("plot")) %>% 
           tagAppendAttributes(
             onclick = sprintf("setInputValue('%s', true)", ns("show"))
@@ -219,7 +219,9 @@ mod_dist_server <- function(id) {
         get(xscale)()
       
       r$code <- sprintf(
-        '%s + %s() + %s()',
+        '%s +
+          %s() + 
+          %s()',
         r$code, input$theme, xscale
       )
       
@@ -227,7 +229,8 @@ mod_dist_server <- function(id) {
         r$plot <- r$plot +
           labs(title = input$title)
         r$code <- sprintf(
-          '%s +\n  labs(title = "%s")',
+          '%s +
+            abs(title = "%s")',
           r$code, input$title
         )
       }
@@ -240,7 +243,7 @@ mod_dist_server <- function(id) {
     
     output$dl <- downloadHandler(
       filename = function() {
-        paste0('nyclodging-', input$dist_x, '-distribution.png')
+        paste('nyclodging', input$x, 'distribution.png', sep = "-")
       },
       content = function(con) {
         ggsave(con, r$plot, device = "png", width = 16, height = 8)

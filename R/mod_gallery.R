@@ -18,13 +18,36 @@ mod_gallery_ui <- function(id) {
     autoWaiter(ns(c("room_type_bar", 
                     "reviews_price_scatter",
                     "wordcloud_low",
-                    "wordcloud_high"))), 
+                    "wordcloud_high",
+                    "cor_mat", 
+                    "map"))), 
     
     col_12(h2("Graph Gallery")),
     col_8(
+      col_12(
+        h5("listings over $1000"), 
+        p("number represent # of houses cluttered in the area, click on circle to expand and see housing details")
+      ) %>% tagAppendAttributes(style = "padding-left:0"), 
+      leafletOutput(ns("map"))
+    ), 
+    col_4(
+      col_12(
+        h5("correlation matrix")
+      ), 
+      echarts4rOutput(ns("cor_mat"))
+    ),
+    col_12(
+      br(), 
+      br()
+    ), 
+    col_8(
+      h5("pricing intervals for each room type"), 
+      p("private and shared room featur low-price houses"), 
       echarts4rOutput(ns("room_type_bar"), height = "50vh")
     ),
     col_4(
+      h5("pricing vs. # number of reviews"),
+      p("n = 5000 sample"), 
       echarts4rOutput(ns("reviews_price_scatter"))
     ), 
     col_6(
@@ -33,12 +56,7 @@ mod_gallery_ui <- function(id) {
     col_6(
       echarts4rOutput(ns("wordcloud_high"))
     ),
-    col_4(
-      echarts4rOutput(ns("cor_mat"))
-    ), 
-    col_8(
-      leafletOutput(ns("map"))
-    )
+
   )
 }
     
@@ -48,24 +66,7 @@ mod_gallery_ui <- function(id) {
 mod_gallery_server <- function(id) {
   moduleServer( id, function(input, output, session) {
     ns <- session$ns
-    
-    tag_map_title <- tags$style(HTML("
-      .leaflet-control.map-title { 
-        transform: translate(-50%,20%);
-        position: fixed !important;
-        left: 50%;
-        text-align: center;
-        padding-left: 10px; 
-        padding-right: 10px; 
-        background: rgba(255,255,255,0.75);
-        font-weight: bold;
-        font-size: 28px;
-      }
-    "))
-    
-    map_title <- tags$div(
-      tag_map_title, HTML("Listings over $1000")
-    )  
+
     
 
     output$room_type_bar <- renderEcharts4r(
@@ -76,28 +77,28 @@ mod_gallery_server <- function(id) {
         group_by(price_cut) %>%
         e_chart(room_type, reorder = TRUE) %>%
         e_bar(n) %>%
-        e_title("price intervals for room type") %>%
         e_tooltip(trigger = "axis") %>% 
         e_legend(orient = "vertical", right = "5", top = "10%") %>% 
+        e_grid(top = "3%") %>%
         e_labels()
     )
     
     output$reviews_price_scatter <- renderEcharts4r(
       listings %>% 
-        slice_sample(n = 3000) %>% 
+        slice_sample(n = 5000) %>% 
         filter(price <= 500, reviews <= 100) %>% 
         group_by(room_type) %>% 
         e_chart(reviews, timeline = TRUE) %>%
         e_scatter(price) %>%
         e_loess(price ~ reviews) %>% 
-        e_title("price vs. reviews", subtext = "n = 3000 sample") %>%
         e_legend(show = FALSE) %>% 
         e_tooltip(trigger = "item",
                   formatter = htmlwidgets::JS("
                     function(params){
-                      return('wt: ' + params.value[0] + '<br />mpg: ' + params.value[1])
+                      return('price: ' + params.value[0] + '<br />reviews: ' + params.value[1])
                     }
-                    "))
+                    ")) %>% 
+        e_grid(top = "3%")
     )
     
   output$wordcloud_low <- renderEcharts4r(
@@ -145,6 +146,7 @@ mod_gallery_server <- function(id) {
   )
   
   output$cor_mat <- renderEcharts4r(
+    
     listings %>% 
       na.omit() %>% 
       select(!!plot_vars) %>% 
@@ -154,8 +156,7 @@ mod_gallery_server <- function(id) {
       e_charts() %>% 
       e_correlations(order = "hclust") %>% 
       e_tooltip() %>% 
-      e_legend(orient = "vertical", left = "5", top = "10%") %>% 
-      e_title("correlation matrix")
+      e_grid(top = "10%")
   )
   
   output$map <- renderLeaflet(
@@ -176,8 +177,7 @@ mod_gallery_server <- function(id) {
       addTiles() %>% 
       addProviderTiles(providers$Esri.WorldTopoMap) %>% 
       addCircleMarkers(clusterOptions = markerClusterOptions(maxClusterRadius = 30),
-                       fill = ~ price, popup = ~ label) %>%
-      addControl(map_title, position = "topleft", className="map-title") 
+                       fill = ~ price, popup = ~ label)
       )
 })}
     

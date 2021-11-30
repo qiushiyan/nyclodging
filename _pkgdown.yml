@@ -1,3 +1,5 @@
 url: ~
 template:
   package: preferably
+  params: 
+    toggle: manual

@@ -3,3 +3,11 @@ template:
   package: preferably
   params: 
     toggle: manual
+
+articles:
+- title: Qiushi Yan
+  navbar: ~ 
+  contents:
+    - introduction
+    - pricing
+    - text-analysis

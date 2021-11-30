@@ -20,6 +20,7 @@ Imports:
     htmltools,
     leaflet,
     magrittr,
+    nycgeo (>= 0.1.0.9000),
     pkgload,
     scales,
     sf,
@@ -42,5 +43,6 @@ Suggests:
     rmarkdown,
     knitr
 VignetteBuilder: knitr
-Remotes: 
-    RinteRface/fullPage
+Remotes:  
+    RinteRface/fullPage,
+    mfherman/nycgeo

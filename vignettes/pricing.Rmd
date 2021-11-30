@@ -1,0 +1,83 @@
+---
+title: "Exploring pricing patterns"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{pricing}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(nyclodging)
+library(echarts4r)
+library(leaflet)
+library(dplyr)
+```
+
+```{r}
+listings %>%
+  filter(price >= 1000) %>% 
+  mutate(label = glue::glue("
+    <b>price</b>: {scales::dollar(price)}<br>
+    <b>description</b>: {list_description}<br>
+    <b>room type</b>: {room_type}<br>
+    <b>neighorboud</b>: {neighbourhood}<br>
+    <b>neighorboud group</b>: {neighbourhood_group}<br>
+    <b>reviews</b>: {reviews}<br>
+    <b>minimum nights</b>: {min_nights}<br>
+    <b>last review date</b>: {last_review_date}<br>
+    <b>list id</b>: {list_id}
+  ")) %>% 
+  leaflet() %>% 
+  addTiles() %>% 
+  addProviderTiles(providers$Esri.WorldTopoMap) %>% 
+  addCircleMarkers(
+    clusterOptions = markerClusterOptions(maxClusterRadius = 30),
+    fill = ~ price, 
+    popup = ~ label)
+```
+
+## 
+
+```{r}
+library(nycgeo)
+library(sf)
+library(tmap)
+
+listings_sf <- listings %>% 
+  st_as_sf(coords = c(lon = "lon", lat = "lat")) %>% 
+  st_set_crs(4326)
+
+nyc <- nyc_boundaries(geography = "tract") %>% 
+  st_transform(4326)
+```
+
+```{r}
+map_df <- nyc %>% 
+  st_join(listings_sf) %>% 
+  group_by(tract_id) %>% 
+  summarise(
+    price = mean(price, na.rm = TRUE)
+  ) 
+```
+
+
+```{r}
+tmap_mode("view")
+
+tm_shape(map_df) + 
+  tm_polygons(col = "price", 
+              palette = rev(rcartocolor::carto_pal(n = 8, "ag_Sunset")),
+              breaks = c(0, 100, 200, 300, 500, 1000, Inf))
+```
+
+
+
+

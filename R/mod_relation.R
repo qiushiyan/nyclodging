@@ -7,7 +7,7 @@
 #' @noRd 
 #'
 #' @importFrom shiny NS tagList 
-#' @importfrom shinycssloaders withSpinner
+#' @importFrom shinycssloaders withSpinner
 #' @importFrom ggstatsplot ggscatterstats grouped_ggscatterstats
 mod_relation_ui <- function(id){
   ns <- NS(id)

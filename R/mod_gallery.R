@@ -161,6 +161,7 @@ mod_gallery_server <- function(id) {
   
   output$map <- renderLeaflet(
     listings %>%
+      filter(price >= 1000) %>% 
       mutate(label = glue("
         <b>price</b>: {scales::dollar(price)}<br>
         <b>description</b>: {list_description}<br>
@@ -172,7 +173,6 @@ mod_gallery_server <- function(id) {
         <b>last review date</b>: {last_review_date}<br>
         <b>list id</b>: {list_id}
       ")) %>% 
-      filter(price >= 1000) %>% 
       leaflet() %>% 
       addTiles() %>% 
       addProviderTiles(providers$Esri.WorldTopoMap) %>% 

@@ -4,5 +4,6 @@ pkgdown_sha: ~
 articles:
   introduction: introduction.html
   pricing: pricing.html
-last_built: 2021-11-30T07:14Z
+  text-analysis: text-analysis.html
+last_built: 2021-11-30T18:19Z
 

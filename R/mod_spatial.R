@@ -31,13 +31,20 @@ mod_spatial_server <- function(id){
     ns <- session$ns
     
     output$plot <- renderTmap({
-      
       tm_shape(map_df) + 
         tm_polygons(col = "median_price", 
                     palette = rev(rcartocolor::carto_pal(n = 7, "ag_Sunset")),
-                    breaks = c(0, 100, 200, 300, 500, 1000, Inf)) + 
+                    breaks = c(0, 100, 200, 300, 500, 1000, Inf),
+                    popup.vars = c(
+                      "Median price" = "median_price", 
+                      "Borough" = "neighbourhood_name",
+                      "Houses" = "houses", 
+                      "Max price" = "max_price", 
+                      "Min price" = "min_price"
+                    )) + 
         tm_view(set.view = c(-73.8, 40.7, 10)) + 
         tm_basemap(providers$Stamen.Toner)
+      
     })
   })
 }

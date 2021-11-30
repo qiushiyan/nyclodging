@@ -22,6 +22,7 @@ Imports:
     magrittr,
     nycgeo (>= 0.1.0.9000),
     pkgload,
+    rcartocolor,
     scales,
     sf,
     shiny (>= 1.7.1),
@@ -43,6 +44,6 @@ Suggests:
     rmarkdown,
     knitr
 VignetteBuilder: knitr
-Remotes:  
+Remotes: 
     RinteRface/fullPage,
     mfherman/nycgeo

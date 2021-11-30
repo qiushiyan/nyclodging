@@ -74,7 +74,7 @@ tmap_mode("view")
 
 tm_shape(map_df) + 
   tm_polygons(col = "price", 
-              palette = rev(rcartocolor::carto_pal(n = 8, "ag_Sunset")),
+              palette = rev(rcartocolor::carto_pal(n = 7, "ag_Sunset")),
               breaks = c(0, 100, 200, 300, 500, 1000, Inf))
 ```
 

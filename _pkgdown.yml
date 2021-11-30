@@ -4,6 +4,11 @@ template:
   params: 
     toggle: manual
 
+home:
+  links:
+    - text: See shiny app 
+      href: " https://qiushiyan.shinyapps.io/nyclodging/"
+
 articles:
 - title: Qiushi Yan
   navbar: ~ 

@@ -32,6 +32,10 @@ nyclodging::listings
 #> #   last_review_date <date>, reviews_per_month <dbl>, available_days <dbl>
 ```
 
+Shiny app: <https://qiushiyan.shinyapps.io/nyclodging/>
+
+Package documentation: <https://qiushiyan.github.io/nyclodging>
+
 ## Installation
 
 You can install the development version of nyclodging like so:

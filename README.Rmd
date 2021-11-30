@@ -28,6 +28,9 @@ nyclodging::listings
 ```
 
 
+Shiny app:  https://qiushiyan.shinyapps.io/nyclodging/
+
+Package documentation: https://qiushiyan.github.io/nyclodging
 
 
 ## Installation

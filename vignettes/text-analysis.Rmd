@@ -14,7 +14,8 @@ knitr::opts_chunk$set(
   warning = FALSE,
   fig.align = "center",
   comment = "#>",
-  collapse = TRUE
+  collapse = TRUE,
+  fig.path = "man/figures/"
 )
 ```
 
@@ -22,8 +23,8 @@ knitr::opts_chunk$set(
 
 ```{r}
 library(nyclodging)
+library(tidyr)
 library(tidytext)
-library(tidymodels)
 library(tidytext)
 library(widyr)
 library(ggraph)
@@ -92,7 +93,7 @@ prop_by_price %>%
 words %>% 
   pairwise_cor(word, list_id) %>% 
   filter(correlation >= 0.3) %>% 
-  as_tbl_graph() %>% 
+  tidygraph::as_tbl_graph() %>% 
   ggraph(layout = "fr") + 
   geom_edge_link(aes(edge_alpha = correlation), show.legend = FALSE) + 
   geom_node_point(color = "lightblue", size = 5) + 

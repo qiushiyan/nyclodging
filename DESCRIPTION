@@ -13,6 +13,7 @@ Imports:
     echarts4r,
     fullPage (>= 0.1.1),
     ggplot2,
+    ggraph,
     ggside,
     ggstatsplot,
     glue,
@@ -29,6 +30,7 @@ Imports:
     shinycssloaders,
     stringr,
     styler,
+    tidygraph,
     tidyr,
     tidytext,
     tmap,
@@ -37,7 +39,9 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.2
 Depends: 
-    R (>= 2.10)
+    tidymodels,
+    R (>= 2.10),
+    widyr
 URL: https://github.com/qiushiyan/nyclodging
 BugReports: https://github.com/qiushiyan/nyclodging/issues
 Suggests: 

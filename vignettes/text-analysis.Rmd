@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
   warning = FALSE,
   fig.align = "center",
   comment = "#>",
-  collapse = TRUE,
+  collapse = TRUE
 )
 ```
 
@@ -47,10 +47,7 @@ words <- listings %>%
   ungroup()
 ```
 
-```{r}
-words %>% 
-  distinct(word)
-```
+
 
 ## Word proportion 
 
@@ -75,8 +72,8 @@ prop_by_price %>%
   geom_jitter(shape = 21, alpha = 0.6) + 
   ggrepel::geom_text_repel(aes(label = word),
                             data = . %>% filter(abs(diff) >= 0.005)) + 
-  scale_x_log10() + 
-  scale_y_log10() + 
+  scale_x_log10(label = scales::label_percent()) + 
+  scale_y_log10(label = scales::label_percent()) + 
   scale_color_viridis_c(breaks = scales::breaks_log(), guide = "none") + 
   geom_abline(slope = 1, intercept = 0, linetype= "dashed") + 
   theme_minimal() + 

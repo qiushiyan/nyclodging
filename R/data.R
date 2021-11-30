@@ -24,3 +24,6 @@
 #' @source {Inside Airbnb public data} \url{http://insideairbnb.com/}
 #' @source {Kaggle Dataset} \url{https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data}
 "listings"
+
+#' map data combined with NYC tract id in simple features 
+"map_df"

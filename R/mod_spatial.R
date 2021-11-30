@@ -7,10 +7,19 @@
 #' @noRd 
 #'
 #' @importFrom shiny NS tagList 
+#' @importFrom shinycssloaders withSpinner
+#' @import tmap 
+#' @import sf 
+#' @import nycgeo
 mod_spatial_ui <- function(id){
   ns <- NS(id)
   tagList(
-    h1("spatial")
+    col_12(
+      h5("Geographical pricing ranges"), 
+      withSpinner(
+        tmapOutput(ns("plot"), height = "70vh")
+      )
+    )
   )
 }
     
@@ -20,7 +29,16 @@ mod_spatial_ui <- function(id){
 mod_spatial_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
- 
+    
+    output$plot <- renderTmap({
+      
+      tm_shape(map_df) + 
+        tm_polygons(col = "median_price", 
+                    palette = rev(rcartocolor::carto_pal(n = 7, "ag_Sunset")),
+                    breaks = c(0, 100, 200, 300, 500, 1000, Inf)) + 
+        tm_view(set.view = c(-73.8, 40.7, 10)) + 
+        tm_basemap(providers$Stamen.Toner)
+    })
   })
 }
     

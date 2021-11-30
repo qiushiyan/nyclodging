@@ -25,7 +25,7 @@ You can jump to other sections:
   Relationship
   </a>
   <p>
-    Correlation plots between variables 
+    Scatterplots and statistical testing of bivariate relationship
   </p>
 </li>
 <li>
@@ -33,7 +33,7 @@ You can jump to other sections:
   Spatial Analysis &nbsp
   </a>
   <p>
-    Geographical analysis of housing price 
+    Geographical pricing ranges 
   </p>
 </li>
 <li>
@@ -73,5 +73,5 @@ function gallery() {
 </script>
 
 
-See <a href = "https://qiushiyan.github.io/nyclodging/reference/listings.html">here</a> for data dictionary.  
+See <a href = "https://qiushiyan.github.io/nyclodging/">here</a> for data dictionary and more documentation.  
 

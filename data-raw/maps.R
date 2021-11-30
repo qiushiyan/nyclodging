@@ -1,37 +1,17 @@
-library(nycgeo)
-library(dplyr)
-nyc_boundaries(geography = "nta")
+map_df <- nyc_boundaries(geography = "tract") %>% 
+  st_transform(4326) %>% 
+  st_join(listings %>% 
+            st_as_sf(coords = c(lon = "lon", lat = "lat")) %>% 
+            st_set_crs(4326)
+  ) %>% 
+  rename(neighbourhood_name = borough_name) %>% 
+  group_by(tract_id, neighbourhood_name) %>% 
+  summarise(
+    median_price = median(price, na.rm = TRUE),
+    max_price = median(price, na.rm = TRUE), 
+    min_price = min(price, na.rm = TRUE),
+    houses = n()
+  ) %>% 
+  ungroup()
 
-library(tmap)
-library(sf)
-
-df <- listings %>% 
-  st_as_sf(coords = c("lon", "lat")) %>% 
-  st_set_crs(3857) %>% 
-  st_join(
-    nyc_boundaries(geography = "nta") %>% 
-      st_set_crs(3857),
-  )
-
-
-# tm_shape(df) + 
-#   tm_dots(col = "price") + 
-tm_shape(nyc_boundaries(geography = "nta") %>% st_set_crs(3857)) + 
-  tm_polygons() + 
-  tm_shape(df) + 
-  tm_dots(col = "price")
-
-
-nyc_boundaries(geography = "tract")
-
-listings %>% 
-  e_charts(lon) %>% 
-  e_geo(
-    roam = TRUE,
-    
-  ) %>%
-  e_scatter(
-    lat, lon,
-    coord_system = "geo"
-  ) %>%
-  e_visual_map()
+usethis::use_data(map_df, overwrite = TRUE)

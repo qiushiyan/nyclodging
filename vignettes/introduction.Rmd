@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 ```
 
 
-```{r setup}
+```{r}
 library(nyclodging)
 ```
 

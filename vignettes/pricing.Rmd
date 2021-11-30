@@ -1,5 +1,6 @@
 ---
 title: "Exploring pricing patterns"
+author: "Qiushi Yan"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{pricing}
@@ -7,12 +8,16 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  comment = "#>",
   collapse = TRUE,
-  comment = "#>"
 )
 ```
+
 
 ```{r setup}
 library(nyclodging)

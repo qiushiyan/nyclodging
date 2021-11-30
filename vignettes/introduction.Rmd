@@ -1,5 +1,6 @@
 ---
 title: "Introduction"
+author: "Qiushi Yan"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{introduction}
@@ -7,16 +8,22 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  comment = "#>",
   collapse = TRUE,
-  comment = "#>"
 )
 ```
+
 
 ```{r setup}
 library(nyclodging)
 ```
+
+Take a look at the dataset
 
 ```{r}
 dplyr::glimpse(listings)

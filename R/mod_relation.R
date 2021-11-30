@@ -23,6 +23,9 @@ mod_relation_ui <- function(id){
   
   
   select_ui <- col_3(
+    col_12(
+      h4("Visualize bivariate relationship")
+    ), 
     selectInput(ns("x"), "x", c("", names_that_are("numeric")), selected = NULL), 
     selectInput(ns("y"), "y", c("", names_that_are("numeric")), selected = NULL),
     selectInput(ns("xscale"), "scale for x axis", c("original", "log10"), selected = "log10"),
@@ -76,7 +79,19 @@ mod_relation_server <- function(id) {
     vars <- names_that_are("numeric")
     
     r <- rv(
-      plot = ggplot(listings), 
+      plot = ggstatsplot::grouped_ggscatterstats(
+        listings,
+        x = price,
+        y = reviews,
+        grouping.var = neighbourhood_group,
+        ggplot.component = list(
+          scale_x_log10(),
+          scale_y_log10()
+        ),
+        ggtheme = theme_bw(),
+        annotation.args = list(title = 'price vs. reviews'),
+        plotgrid.args = list(ncol = 1)
+      ), 
       code = "ggplot(listings)"
     )
     

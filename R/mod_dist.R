@@ -8,7 +8,7 @@
 #'
 #' @importFrom shiny NS tagList fluidRow
 #' @importFrom glue glue
-#' @importFrom dplyr pull 
+#' @importFrom dplyr pull slice_sample
 #' @importFrom colourvalues color_values
 #' @importFrom shinycssloaders withSpinner
 #' @import ggplot2
@@ -28,7 +28,7 @@ mod_dist_ui <- function(id) {
   
   
   select_ui <- col_3(
-    h4("Visualize single-variable distribution"),
+    col_12(h4("Visualize single-variable distribution")),
     selectInput(ns("x"), 
                 "variable", 
                 choices = c("", plot_vars), 
@@ -109,14 +109,19 @@ mod_dist_server <- function(id) {
     ns <- session$ns
     
     r <- rv(
-      plot = ggplot(listings), 
+      plot = ggplot(listings %>% slice_sample(n = 5000)) + 
+        geom_histogram(aes(price, fill = room_type)) + 
+        scale_fill_viridis_d() + 
+        scale_x_log10() + 
+        theme_bw() + 
+        labs(title = "Distribution of price group by room type"), 
       code = "ggplot(listings)"
     )
     
     
     # change available plot type 
     observeEvent( input$x , {
-      if (is.numeric(listings[[input$x]])) {
+      if (is.numeric(listings[[input$x]]) || input$x == "") {
         updateSelectInput(session, 
                           "type", 
                           choices = c("histogram", "density", "boxplot"),
@@ -180,8 +185,7 @@ mod_dist_server <- function(id) {
         
         r$code <- sprintf(
           "ggplot(listings, aes(%s)) + 
-                %s()
-            ", 
+                %s()", 
           input$x,
           type 
         )
@@ -230,7 +234,7 @@ mod_dist_server <- function(id) {
           labs(title = input$title)
         r$code <- sprintf(
           '%s +
-            abs(title = "%s")',
+            labs(title = "%s")',
           r$code, input$title
         )
       }

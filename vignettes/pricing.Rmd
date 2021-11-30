@@ -14,12 +14,12 @@ knitr::opts_chunk$set(
   warning = FALSE,
   fig.align = "center",
   comment = "#>",
-  collapse = TRUE,
+  collapse = TRUE
 )
 ```
 
 
-```{r setup}
+```{r}
 library(nyclodging)
 library(echarts4r)
 library(leaflet)

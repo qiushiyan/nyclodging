@@ -1,6 +1,6 @@
 Package: nyclodging
 Title: Airbnb listings in New York City in 2019
-Version: 0.0.0.9000
+Version: 1.0.0
 Authors@R: person('Qiushi', 'Yan', email = 'qiushi.yann@gmail.com', role = c('cre', 'aut'))
 Description: Includes measurements on host, room description, room type, reviews, availability, geographic location, etc.
 License: MIT + file LICENSE

@@ -7,10 +7,17 @@
 #' @noRd 
 #'
 #' @importFrom shiny NS tagList 
+#' @import leaflet 
 mod_text_ui <- function(id){
   ns <- NS(id)
+  
+  select_ui <- col_6(
+    
+  )
+  
   tagList(
-    h1("text")
+    h1("text"),
+    leafletOutput(ns("plot"))
   )
 }
     
@@ -20,7 +27,16 @@ mod_text_ui <- function(id){
 mod_text_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
- 
+    
+    output$plot <- renderLeaflet(
+      leaflet() %>% 
+        setView(lng = -71.0589, lat = 42.3601, zoom = 12) %>% 
+        addTiles()
+    )
+    
+    observeEvent(input$plot_click, {
+      print(input$plot_click)
+    })
   })
 }
     

@@ -1,3 +1,5 @@
+# nyclodging 1.1.0
+
 # nyclodging 1.0.0
 
 first release

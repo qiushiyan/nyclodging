@@ -8,6 +8,12 @@
 #'
 #' @importFrom shiny NS tagList 
 #' @import leaflet 
+#' @importFrom nycgeo nyc_boundaries
+#' @import sf
+#' @importFrom readr read_rds
+#' @import workflows
+#' @import recipes
+#' @import textrecipes
 mod_text_ui <- function(id){
   ns <- NS(id)
   
@@ -31,7 +37,16 @@ mod_text_ui <- function(id){
   )
   
   predict_ui <- col_4(
-    verbatimTextOutput(ns("result"))
+    col_12(
+      actionButton(
+        ns("predict"), 
+        "predict price range", icon = icon("arrow-down")
+      ) %>%
+        tags$div(align = "center", style = "padding-left:2em"),
+    ),
+    col_12(
+      verbatimTextOutput(ns("result"))
+    )
   )
   
   tagList(
@@ -47,6 +62,14 @@ mod_text_server <- function(id) {
   moduleServer( id, function(input, output, session) {
     ns <- session$ns
     
+    neighbourhood <- nyc_boundaries("borough") %>% st_transform(4326)
+    
+    classification_model <- readr::read_rds(app_sys("app/www/classification_model.rds"))
+    
+    result <- rv(
+      predicted = ""
+    )
+    
     house_icon <- makeIcon(
       iconUrl = app_sys("app/www/house_icon.png")
     )
@@ -55,6 +78,36 @@ mod_text_server <- function(id) {
       updateSliderInput(session, "lon", value = isolate(input$plot_click$lng))
       updateSliderInput(session, "lat", value = isolate(input$plot_click$lat))
     })
+    
+    observeEvent(input$predict, {
+      # get neighbourhood
+      selected <- data.frame(
+        lon = -73.8, 
+        lat = 40.7
+      ) %>% 
+        st_as_sf(coords = c(lon = "lon", lat = "lat")) %>% 
+        st_set_crs(4326)
+      
+      neighbourhood_group <- selected %>% 
+        st_join(neighbourhood) %>% 
+        .[["borough_name"]]
+      
+      df_to_predict <- tibble(
+        list_description = input$description, 
+        lat = input$lat, 
+        lon = input$lon, 
+        neighbourhood_group = neighbourhood_group
+      )
+      
+
+      res <- predict(classification_model, df_to_predict)
+      result$predicted <- res
+    })
+    
+    output$result <- renderPrint({
+      result$predicted
+    })
+    
     
     output$plot <- renderLeaflet({
         leaflet() %>% 
@@ -65,6 +118,7 @@ mod_text_server <- function(id) {
                      icon = house_icon)
     
         })
+    
     
   })
 }

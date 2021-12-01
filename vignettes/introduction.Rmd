@@ -14,8 +14,7 @@ knitr::opts_chunk$set(
   warning = FALSE,
   fig.align = "center",
   comment = "#>",
-  collapse = TRUE,
-  fig.path = "man/figures/"
+  collapse = TRUE
 )
 ```
 

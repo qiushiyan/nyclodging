@@ -27,7 +27,7 @@ mod_text_ui <- function(id){
         )
     ) %>% tagAppendAttributes(style = "display:flex;"), 
     col_12(
-      p("click on the map the pick a location"), 
+      p("click on the map to quickly pick a location"), 
       leafletOutput(ns("plot"))
     )
   )
@@ -36,7 +36,7 @@ mod_text_ui <- function(id){
     col_12(
       actionButton(
         ns("predict"), 
-        "predict price range", icon = icon("arrow-down")
+        "predict price", icon = icon("arrow-down")
       ) %>%
         tags$div(align = "center", style = "padding-left:2em"),
     ),
@@ -58,6 +58,14 @@ mod_text_ui <- function(id){
   )
   
   tagList(
+    col_12(
+      h5("Predicting price ranges"), 
+      p("Describe the listing and pick a location on the map, click on the predict button. We'll predict the mostly likely pricing range based on a multinomial logistic model.
+        See ",
+        a("here", href = "https://qiushiyan.github.io/nyclodging/articles/modeling.html"), "and ",
+        a("here", href = "https://github.com/qiushiyan/nyclodging/blob/main/data-raw/words.R"), " ", 
+        "for details")
+    ), 
     select_ui, 
     predict_ui 
   )

@@ -9,7 +9,7 @@
 #' @importFrom shiny NS tagList 
 #' @importFrom shinycssloaders withSpinner
 #' @importFrom ggstatsplot ggscatterstats grouped_ggscatterstats
-mod_relation_ui <- function(id){
+mod_relation_ui <- function(id) {
   ns <- NS(id)
   
   themes <- c("theme_bw", 
@@ -20,8 +20,7 @@ mod_relation_ui <- function(id){
               "theme_linedraw",
               "theme_minimal", 
               "theme_void")
-  
-  
+
   select_ui <- col_3(
     col_12(
       h4("Visualize bivariate relationship")
@@ -72,7 +71,7 @@ mod_relation_ui <- function(id){
 #' relation Server Functions
 #'
 #' @noRd 
-mod_relation_server <- function(id) {
+mod_relation_server <- function(id, font_size = 16) {
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
@@ -88,7 +87,7 @@ mod_relation_server <- function(id) {
           scale_x_log10(),
           scale_y_log10()
         ),
-        ggtheme = theme_bw(),
+        ggtheme = theme_bw(base_size = 16),
         annotation.args = list(title = 'price vs. reviews'),
         plotgrid.args = list(ncol = 1)
       ), 
@@ -154,7 +153,7 @@ mod_relation_server <- function(id) {
             get(xscale)(), 
             get(yscale)()
           ), 
-          ggtheme = get(input$theme)(), 
+          ggtheme = get(input$theme)(base_size = font_size), 
           annotation.args = list(title = input$title),
           plotgrid.args = list(ncol = 1)
         ) 
@@ -166,13 +165,13 @@ mod_relation_server <- function(id) {
             y = %s,
             grouping.var = %s,
             ggplot.component = list(
-              %s(),
+              %s(,
               %s()
             ),
-            ggtheme = %s(),
+            ggtheme = %s(base_size = %s),
             annotation.args = list(title = '%s'),
             plotgrid.args = list(ncol = 1)
-          )", input$x, input$y, input$group, xscale, yscale, input$theme, input$title
+          )", input$x, input$y, input$group, xscale, yscale, input$theme, font_size, input$title
         )
         print("code for group")
       } else {
@@ -184,7 +183,7 @@ mod_relation_server <- function(id) {
             get(xscale)(), 
             get(yscale)()
           ), 
-          ggtheme = get(input$theme)(), 
+          ggtheme = get(input$theme)(base_size = font_size), 
           annotation.args = list(title = input$title),
         )
 
@@ -197,9 +196,9 @@ mod_relation_server <- function(id) {
               %s(),
               %s()
             ),
-            ggtheme = %s(),
+            ggtheme = %s(base_size = %s),
             annotation.args = list(title = '%s')
-          )", input$x, input$y, xscale, yscale, input$theme, input$title)
+          )", input$x, input$y, xscale, yscale, input$theme, font_size, input$title)
         print("code for non-group")
         
       }

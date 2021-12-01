@@ -103,7 +103,7 @@ mod_dist_ui <- function(id) {
 #' mod_dist Server Functions
 #'
 #' @noRd 
-mod_dist_server <- function(id) { 
+mod_dist_server <- function(id, font_size = 16) { 
   moduleServer( id, function(input, output, session) {
     
     ns <- session$ns
@@ -113,8 +113,8 @@ mod_dist_server <- function(id) {
         geom_histogram(aes(price, fill = room_type)) + 
         scale_fill_viridis_d() + 
         scale_x_log10() + 
-        theme_bw() + 
-        labs(title = "Distribution of price group by room type"), 
+        labs(title = "Distribution of price group by room type") + 
+        theme_bw(base_size = 16), 
       code = "ggplot(listings)"
     )
     
@@ -219,19 +219,21 @@ mod_dist_server <- function(id) {
       
       
       r$plot <- r$plot +
-        get(input$theme)() +
+        get(input$theme)(base_size = font_size) +
         get(xscale)()
       
       r$code <- sprintf(
         '%s +
           %s() + 
-          %s()',
-        r$code, input$theme, xscale
+          %s(base_size = %s)' 
+          ,
+        r$code, xscale, input$theme, font_size
       )
       
       if (input$title != "") {
         r$plot <- r$plot +
-          labs(title = input$title)
+          labs(title = input$title) + 
+          get(input$theme)(base_size = font_size) # re-add theme so it controls title text size
         r$code <- sprintf(
           '%s +
             labs(title = "%s")',

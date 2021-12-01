@@ -20,8 +20,8 @@ app_ui <- function(request) {
         "Explore Airbnb listings in NYC",
         c(
           "dataset" = "Dataset",
-          "text" = "Prediction",
           "spatial" = "Spatial",
+          "text" = "Prediction",
           "distribution" = "Distribution",
           "relationship" = "Relationship",
           "gallery" = "Gallery" 
@@ -35,12 +35,12 @@ app_ui <- function(request) {
           mod_dataset_ui("about")
         ) %>% undisplay(), 
         fluidRow(
-          id = "text", 
-          mod_text_ui("text")
-        ) %>% undisplay(), 
-        fluidRow(
           id = "spatial", 
           mod_spatial_ui("spatial")
+        ) %>% undisplay(), 
+        fluidRow(
+          id = "text", 
+          mod_text_ui("text")
         ) %>% undisplay(), 
         fluidRow(
           id = "distribution", 

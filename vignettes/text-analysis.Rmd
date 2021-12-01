@@ -15,7 +15,9 @@ knitr::opts_chunk$set(
   fig.align = "center",
   comment = "#>",
   collapse = TRUE,
-  fig.path = "man/figures/"
+  fig.path = "man/figures/",
+  fig.width = 7,
+  fig.height = 5
 )
 ```
 
@@ -68,7 +70,7 @@ prop_by_price <- words %>%
 ```
 
 
-```{r}
+```{r compare-word-proportion}
 prop_by_price %>% 
   ggplot(aes(`lower than 100`, `higher than 100`, color = abs(diff))) + 
   geom_jitter(shape = 21, alpha = 0.6) + 
@@ -90,7 +92,7 @@ prop_by_price %>%
 
 ## Word Correlations 
 
-```{r}
+```{r word-cor-network}
 words %>% 
   pairwise_cor(word, list_id) %>% 
   filter(correlation >= 0.3) %>% 

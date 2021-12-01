@@ -6,6 +6,7 @@ Description: Includes measurements on host, room description, room type, reviews
 License: MIT + file LICENSE
 Imports: 
     attempt,
+    broom,
     colourvalues,
     config (>= 0.3.1),
     dplyr,
@@ -30,6 +31,7 @@ Imports:
     sf,
     shiny (>= 1.7.1),
     shinycssloaders,
+    shinyFeedback,
     stopwords,
     stringr,
     styler,

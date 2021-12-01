@@ -4,6 +4,7 @@
 #'     DO NOT REMOVE.
 #' @import shiny
 #' @importFrom waiter useWaiter useWaitress
+#' @importFrom shinyFeedback useShinyFeedback
 #' @noRd
 app_ui <- function(request) {
   tagList(
@@ -12,16 +13,17 @@ app_ui <- function(request) {
     bootstrapLib(bslib::bs_theme(bootswatch = "yeti")), 
     useWaiter(), 
     useWaitress(), 
+    useShinyFeedback(), 
     # Your application UI logic 
     tagList(
       nav_(
         "Explore Airbnb listings in NYC",
         c(
           "dataset" = "Dataset",
+          "text" = "Prediction",
+          "spatial" = "Spatial",
           "distribution" = "Distribution",
           "relationship" = "Relationship",
-          "spatial" = "Spatial Analysis",
-          "text" = "Text Analysis",
           "gallery" = "Gallery" 
           
         )
@@ -33,6 +35,14 @@ app_ui <- function(request) {
           mod_dataset_ui("about")
         ) %>% undisplay(), 
         fluidRow(
+          id = "text", 
+          mod_text_ui("text")
+        ) %>% undisplay(), 
+        fluidRow(
+          id = "spatial", 
+          mod_spatial_ui("spatial")
+        ) %>% undisplay(), 
+        fluidRow(
           id = "distribution", 
           mod_dist_ui("dist")
         ) %>% undisplay(),
@@ -41,17 +51,9 @@ app_ui <- function(request) {
           mod_relation_ui("relation")
         ) %>% undisplay(),
         fluidRow(
-          id = "spatial", 
-          mod_spatial_ui("spatial")
-        ) %>% undisplay(),
-        fluidRow(
-          id = "text", 
-          mod_text_ui("text")
-        ) %>% undisplay(),
-        fluidRow(
           id = "gallery",
           mod_gallery_ui("gallery"), 
-        ) %>% undisplay() 
+        ) %>% undisplay(), 
       )
     )
   )

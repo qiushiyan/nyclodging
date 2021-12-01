@@ -7,15 +7,11 @@
 #' @noRd 
 #'
 #' @importFrom shiny NS tagList 
-#' @import leaflet 
-#' @importFrom nycgeo nyc_boundaries
-#' @import sf
-#' @importFrom readr read_rds
-#' @import workflows
-#' @import recipes
-#' @import textrecipes
+#' @importFrom waiter Waitress
+
 mod_text_ui <- function(id){
   ns <- NS(id)
+  
   
   select_ui <- col_8(
     col_12(textInput(ns("description"), 
@@ -29,7 +25,7 @@ mod_text_ui <- function(id){
         col_6(
           sliderInput(ns("lat"), "latitude", min = 40.5, max = 40.9, value = 40.7)
         )
-    ) %>% tagAppendAttributes(style = "display:flex;pad"), 
+    ) %>% tagAppendAttributes(style = "display:flex;"), 
     col_12(
       p("click on the map the pick a location"), 
       leafletOutput(ns("plot"))
@@ -44,8 +40,20 @@ mod_text_ui <- function(id){
       ) %>%
         tags$div(align = "center", style = "padding-left:2em"),
     ),
+    HTML("&nbsp;"),
     col_12(
-      verbatimTextOutput(ns("result"))
+      tags$div(
+        p("Predicted price range  "), 
+        HTML("&nbsp;"), 
+        textOutput(ns("predicted")) %>% tagAppendAttributes(style = "font-weight:bold;"), 
+        id = "predict-description"
+      ) %>% tagAppendAttributes(style = "display:flex;"), 
+      withSpinner(
+        tags$div(
+          plotOutput(ns("probs")),
+          id = "predict-plot"
+        )
+      )
     )
   )
   
@@ -62,12 +70,16 @@ mod_text_server <- function(id) {
   moduleServer( id, function(input, output, session) {
     ns <- session$ns
     
-    neighbourhood <- nyc_boundaries("borough") %>% st_transform(4326)
+    waitress <- Waitress$new("#predict-plot", theme = "overlay")
+    
+    nyc_borough <- nyc_boundaries("borough") %>% st_transform(4326)
     
     classification_model <- readr::read_rds(app_sys("app/www/classification_model.rds"))
     
     result <- rv(
-      predicted = ""
+      predicted = NULL, 
+      probs = NULL,
+      neighbourhood = NULL
     )
     
     house_icon <- makeIcon(
@@ -80,34 +92,37 @@ mod_text_server <- function(id) {
     })
     
     observeEvent(input$predict, {
-      # get neighbourhood
-      selected <- data.frame(
-        lon = -73.8, 
-        lat = 40.7
-      ) %>% 
-        st_as_sf(coords = c(lon = "lon", lat = "lat")) %>% 
-        st_set_crs(4326)
-      
-      neighbourhood_group <- selected %>% 
-        st_join(neighbourhood) %>% 
-        .[["borough_name"]]
-      
-      df_to_predict <- tibble(
-        list_description = input$description, 
-        lat = input$lat, 
-        lon = input$lon, 
-        neighbourhood_group = neighbourhood_group
-      )
-      
-
-      res <- predict(classification_model, df_to_predict)
-      result$predicted <- res
+      words <- length(strsplit(input$description, " ")[[1]])
+      if (words < 5) {
+        showFeedbackWarning(
+          inputId = "description",
+          text = "please enter at least 5 words"
+        )  
+      } 
+      else {
+        neighbourhood <- get_neighbourhood(nyc_borough, input$lon, input$lat)
+        if (is.na(neighbourhood)) {
+          result$predicted <- "I don't want to live outside NYC Pick another location."
+        } else {
+          waitress$start(h5("predicting price based on location and description ..."))
+          df_predicted <- predice_price(classification_model, 
+                               input$lon, 
+                               input$lat, 
+                               neighbourhood, 
+                               input$description)
+          print(df_predicted)
+          result$neighbourhood <- neighbourhood
+          result$predicted <- as.character(df_predicted[df_predicted$prob == max(df_predicted$prob), "class", drop = TRUE])
+          result$probs <- df_predicted
+          waitress$close()
+        }
+      }
     })
     
-    output$result <- renderPrint({
+    output$predicted <- renderText({
+      req(result$predicted)
       result$predicted
     })
-    
     
     output$plot <- renderLeaflet({
         leaflet() %>% 
@@ -119,6 +134,23 @@ mod_text_server <- function(id) {
     
         })
     
+    output$probs <- renderPlot({
+      req(result$probs)
+      
+      result$probs %>% 
+        ggplot() + 
+        geom_col(aes(prob, class)) + 
+        theme_minimal() + 
+        theme(
+          axis.text.y = element_text(size = 14), 
+          axis.text.x = element_text(size = 10), 
+          title = element_text(size = 18)
+        ) + 
+        labs(title = "predicted price range", 
+             subtitle = sprintf("house in %s", result$neighbourhood),
+             y = NULL,
+             x = "probability")
+    })
     
   })
 }

@@ -13,6 +13,22 @@ You can jump to other sections:
 
 <ul>
 <li>
+  <a href = "javascript:void(0)" onclick = "textAnalysis()">
+  Prediction
+  </a>
+  <p>
+    Predicting price ranges based on description and location 
+  </p>
+</li>
+<li>
+  <a href = "javascript:void(0)" onclick = "spatialAnalysis()">
+  Spatial Analysis &nbsp
+  </a>
+  <p>
+    Spatial overview of pricing patterns, down to tracts  
+  </p>
+</li>
+<li>
   <a href = "javascript:void(0)" onclick = "distribution()">
   Distribution
   </a>
@@ -29,22 +45,6 @@ You can jump to other sections:
   </p>
 </li>
 <li>
-  <a href = "javascript:void(0)" onclick = "spatialAnalysis()">
-  Spatial Analysis &nbsp
-  </a>
-  <p>
-    Geographical pricing ranges 
-  </p>
-</li>
-<li>
-  <a href = "javascript:void(0)" onclick = "textAnalysis()">
-  Text Analysis
-  </a>
-  <p>
-    Usage of words and bigrams in listing description 
-  </p>
-</li>
-<li>
   <a href = "javascript:void(0)" onclick = "gallery()">
   Gallery
   </a>
@@ -55,17 +55,17 @@ You can jump to other sections:
 </ul>
 
 <script>
+function textAnalysis() {
+  $("a[data-value ='Prediction'").click()
+}
+function spatialAnalysis() {
+  $("a[data-value ='Spatial'").click()
+}
 function distribution() {
   $("a[data-value ='Distribution'").click()
 }
 function relationship() {
   $("a[data-value ='Relationship'").click()
-}
-function spatialAnalysis() {
-  $("a[data-value ='Spatial Analysis'").click()
-}
-function textAnalysis() {
-  $("a[data-value ='Text Analysis'").click()
 }
 function gallery() {
   $("a[data-value ='Gallery'").click()

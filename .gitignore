@@ -8,3 +8,4 @@ docs
 rsconnect
 /doc/
 /Meta/
+*_cache/

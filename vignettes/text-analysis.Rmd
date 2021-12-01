@@ -101,6 +101,3 @@ words %>%
   geom_node_text(aes(label = name), repel = TRUE) + 
   labs(title = "Word network of cooccurence")
 ```
-
-
-## 

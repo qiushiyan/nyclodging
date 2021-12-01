@@ -1,5 +1,7 @@
 # nyclodging 1.1.0
 
+Set global font size
+
 # nyclodging 1.0.0
 
 first release

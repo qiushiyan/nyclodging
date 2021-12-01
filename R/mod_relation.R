@@ -83,7 +83,7 @@ mod_relation_server <- function(id) {
         listings,
         x = price,
         y = reviews,
-        grouping.var = neighbourhood_group,
+        grouping.var = room_type,
         ggplot.component = list(
           scale_x_log10(),
           scale_y_log10()

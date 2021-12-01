@@ -15,6 +15,7 @@ Imports:
     ggraph,
     ggside,
     ggstatsplot,
+    glmnet,
     glue,
     golem (>= 0.3.1),
     htmltools,

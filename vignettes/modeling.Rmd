@@ -149,8 +149,13 @@ model_res %>%
 autoplot(model_res)
 ```
 
+```{r, include = FALSE}
+ggsave("~/workspace/shinyapps/nyclodging/vignettes/figs/model-res-autoplot.png", width = 8)
+```
+
+
 ```{r, eval = TRUE, echo = FALSE}
-knitr::include_graphics("man/figures/model-res-autoplot-1.png")
+knitr::include_graphics("figs/model-res-autoplot.png")
 ```
 
 
@@ -180,7 +185,11 @@ model_final %>%
   vip(num_features = 20)
 ```
 
-```{r, echo = FALSE, eval = TRUE}
-knitr::include_graphics("man/figures/vip-plot-1.png")
+```{r, include = FALSE}
+ggsave("~/workspace/shinyapps/nyclodging/vignettes/figs/vip-plot.png", width = 8)
+```
+
+```{r, eval = TRUE, echo = FALSE}
+knitr::include_graphics("figs/vip-plot.png")
 ```
 

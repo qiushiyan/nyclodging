@@ -3,7 +3,8 @@ pkgdown: 2.0.0
 pkgdown_sha: ~
 articles:
   introduction: introduction.html
+  modeling: modeling.html
   pricing: pricing.html
   text-analysis: text-analysis.html
-last_built: 2021-12-01T00:45Z
+last_built: 2021-12-01T05:58Z
 

@@ -16,6 +16,7 @@ mod_spatial_ui <- function(id){
   tagList(
     col_12(
       h5("Geographical pricing ranges"), 
+      p("The map fill shows the spatial distribution of listing's median price across NYC down to tract level, click on indivisual blocks to learn more"), 
       withSpinner(
         tmapOutput(ns("plot"), height = "70vh")
       )

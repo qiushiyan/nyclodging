@@ -36,6 +36,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -48,18 +50,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nyclodging</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -93,7 +89,7 @@
         </li>
         
         <li>
-  <a href="https://github.com/qiushiyan/nyclodging/">
+  <a href="https://github.com/qiushiyan/nyclodging/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -116,9 +112,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction</h1>
+                        <h4 data-toc-skip class="author">Qiushi Yan</h4>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/qiushiyan/nyclodging/blob/master/vignettes/introduction.Rmd"><code>vignettes/introduction.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/qiushiyan/nyclodging/blob/HEAD/vignettes/introduction.Rmd" class="external-link"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="hidden name"><code>introduction.Rmd</code></div>
 
     </div>
@@ -126,46 +123,27 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/qiushiyan/nyclodging">nyclodging</a></span><span class="op">)</span>
-<span class="co">#&gt; Loading required package: tidymodels</span>
-<span class="co">#&gt; Registered S3 method overwritten by 'tune':</span>
-<span class="co">#&gt;   method                   from   </span>
-<span class="co">#&gt;   required_pkgs.model_spec parsnip</span>
-<span class="co">#&gt; ── Attaching packages ────────────────────────────────────── tidymodels 0.1.4 ──</span>
-<span class="co">#&gt; ✔ broom        0.7.10     ✔ recipes      0.1.17</span>
-<span class="co">#&gt; ✔ dials        0.0.10     ✔ rsample      0.1.1 </span>
-<span class="co">#&gt; ✔ dplyr        1.0.7      ✔ tibble       3.1.6 </span>
-<span class="co">#&gt; ✔ ggplot2      3.3.5      ✔ tidyr        1.1.4 </span>
-<span class="co">#&gt; ✔ infer        1.0.0      ✔ tune         0.1.6 </span>
-<span class="co">#&gt; ✔ modeldata    0.1.1      ✔ workflows    0.2.4 </span>
-<span class="co">#&gt; ✔ parsnip      0.1.7      ✔ workflowsets 0.1.0 </span>
-<span class="co">#&gt; ✔ purrr        0.3.4      ✔ yardstick    0.0.9</span>
-<span class="co">#&gt; ── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──</span>
-<span class="co">#&gt; ✖ purrr::discard() masks scales::discard()</span>
-<span class="co">#&gt; ✖ dplyr::filter()  masks stats::filter()</span>
-<span class="co">#&gt; ✖ dplyr::lag()     masks stats::lag()</span>
-<span class="co">#&gt; ✖ recipes::step()  masks stats::step()</span>
-<span class="co">#&gt; • Learn how to get started at https://www.tidymodels.org/start/</span>
-<span class="co">#&gt; Loading required package: widyr</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/qiushiyan/nyclodging" class="external-link">nyclodging</a></span><span class="op">)</span></code></pre></div>
+<p>Take a look at the dataset</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">listings</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">listings</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 48,895</span>
 <span class="co">#&gt; Columns: 15</span>
-<span class="co">#&gt; $ list_id             &lt;dbl&gt; 2539, 2595, 3647, 3831, 5022, 5099, 5121, 5178, 52…</span>
-<span class="co">#&gt; $ list_description    &lt;chr&gt; "Clean &amp; quiet apt home by the park", "Skylit Midt…</span>
-<span class="co">#&gt; $ host_id             &lt;dbl&gt; 2787, 2845, 4632, 4869, 7192, 7322, 7356, 8967, 74…</span>
-<span class="co">#&gt; $ host_name           &lt;chr&gt; "John", "Jennifer", "Elisabeth", "LisaRoxanne", "L…</span>
-<span class="co">#&gt; $ neighbourhood_group &lt;chr&gt; "Brooklyn", "Manhattan", "Manhattan", "Brooklyn", …</span>
-<span class="co">#&gt; $ neighbourhood       &lt;chr&gt; "Kensington", "Midtown", "Harlem", "Clinton Hill",…</span>
-<span class="co">#&gt; $ lat                 &lt;dbl&gt; 40.64749, 40.75362, 40.80902, 40.68514, 40.79851, …</span>
-<span class="co">#&gt; $ lon                 &lt;dbl&gt; -73.97237, -73.98377, -73.94190, -73.95976, -73.94…</span>
-<span class="co">#&gt; $ room_type           &lt;chr&gt; "private room", "entire room", "private room", "en…</span>
-<span class="co">#&gt; $ price               &lt;dbl&gt; 149, 225, 150, 89, 80, 200, 60, 79, 79, 150, 135, …</span>
-<span class="co">#&gt; $ min_nights          &lt;dbl&gt; 1, 1, 3, 1, 10, 3, 45, 2, 2, 1, 5, 2, 4, 2, 90, 2,…</span>
-<span class="co">#&gt; $ reviews             &lt;dbl&gt; 9, 45, 0, 270, 9, 74, 49, 430, 118, 160, 53, 188, …</span>
-<span class="co">#&gt; $ last_review_date    &lt;date&gt; 2018-10-19, 2019-05-21, NA, 2019-07-05, 2018-11-1…</span>
-<span class="co">#&gt; $ reviews_per_month   &lt;dbl&gt; 0.21, 0.38, NA, 4.64, 0.10, 0.59, 0.40, 3.47, 0.99…</span>
-<span class="co">#&gt; $ available_days      &lt;dbl&gt; 365, 355, 365, 194, 0, 129, 0, 220, 0, 188, 6, 39,…</span></code></pre></div>
+<span class="co">#&gt; $ list_id             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2539, 2595, 3647, 3831, 5022, 5099, 5121, 5178, 52…</span>
+<span class="co">#&gt; $ list_description    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Clean &amp; quiet apt home by the park", "Skylit Midt…</span>
+<span class="co">#&gt; $ host_id             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2787, 2845, 4632, 4869, 7192, 7322, 7356, 8967, 74…</span>
+<span class="co">#&gt; $ host_name           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "John", "Jennifer", "Elisabeth", "LisaRoxanne", "L…</span>
+<span class="co">#&gt; $ neighbourhood_group <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Brooklyn", "Manhattan", "Manhattan", "Brooklyn", …</span>
+<span class="co">#&gt; $ neighbourhood       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Kensington", "Midtown", "Harlem", "Clinton Hill",…</span>
+<span class="co">#&gt; $ lat                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 40.64749, 40.75362, 40.80902, 40.68514, 40.79851, …</span>
+<span class="co">#&gt; $ lon                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> -73.97237, -73.98377, -73.94190, -73.95976, -73.94…</span>
+<span class="co">#&gt; $ room_type           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "private room", "entire room", "private room", "en…</span>
+<span class="co">#&gt; $ price               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 149, 225, 150, 89, 80, 200, 60, 79, 79, 150, 135, …</span>
+<span class="co">#&gt; $ min_nights          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 1, 3, 1, 10, 3, 45, 2, 2, 1, 5, 2, 4, 2, 90, 2,…</span>
+<span class="co">#&gt; $ reviews             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 9, 45, 0, 270, 9, 74, 49, 430, 118, 160, 53, 188, …</span>
+<span class="co">#&gt; $ last_review_date    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2018-10-19, 2019-05-21, NA, 2019-07-05, 2018-11-1…</span>
+<span class="co">#&gt; $ reviews_per_month   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.21, 0.38, NA, 4.64, 0.10, 0.59, 0.40, 3.47, 0.99…</span>
+<span class="co">#&gt; $ available_days      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 365, 355, 365, 194, 0, 129, 0, 220, 0, 188, 6, 39,…</span></code></pre></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -177,11 +155,11 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Qiushi Yan.</p>
+  <p>Developed by .</p>
 </div>
 
 <div class="pkgdown">
-  <p>Made with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1, using <a href="https://preferably.amirmasoudabdol.name/?source=footer">preferably</a> template.</p>
+  <p>Made with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> , using <a href="https://preferably.amirmasoudabdol.name/?source=footer" class="external-link">preferably</a> template.</p>
 </div>
 
       </footer>
@@ -189,6 +167,8 @@
 
   
 
+
+  
 
   </body>
 </html>

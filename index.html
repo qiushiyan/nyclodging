@@ -36,6 +36,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -48,18 +50,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">nyclodging</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -93,7 +89,7 @@
         </li>
         
         <li>
-  <a href="https://github.com/qiushiyan/nyclodging/">
+  <a href="https://github.com/qiushiyan/nyclodging/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -114,9 +110,9 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="nyclodging" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#nyclodging" class="anchor"></a>nyclodging</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="nyclodging">nyclodging<a class="anchor" aria-label="anchor" href="#nyclodging"></a>
+</h1></div>
 <!-- badges: start -->
 
 <p><code>nyclogding</code> contains shiny application and documentation for analyzing Airbnb listings in New York City in 2019.</p>
@@ -138,26 +134,28 @@
 <span class="co">#&gt; # … with 48,885 more rows, and 9 more variables: lat &lt;dbl&gt;, lon &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   room_type &lt;chr&gt;, price &lt;dbl&gt;, min_nights &lt;dbl&gt;, reviews &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   last_review_date &lt;date&gt;, reviews_per_month &lt;dbl&gt;, available_days &lt;dbl&gt;</span></code></pre></div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<p>Shiny app: <a href="https://qiushiyan.shinyapps.io/nyclodging/" class="external-link uri">https://qiushiyan.shinyapps.io/nyclodging/</a></p>
+<p>Package documentation: <a href="https://qiushiyan.github.io/nyclodging" class="external-link uri">https://qiushiyan.github.io/nyclodging</a></p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>You can install the development version of nyclodging like so:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"qiushiyan/nyclodging"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"qiushiyan/nyclodging"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
 <p>To start the shiny app locally</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">nyclodging</span><span class="fu">::</span><span class="fu"><a href="reference/run_app.html">run_app</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="source" class="section level2">
-<h2 class="hasAnchor">
-<a href="#source" class="anchor"></a>Source</h2>
+<div class="section level2">
+<h2 id="source">Source<a class="anchor" aria-label="anchor" href="#source"></a>
+</h2>
 <ul>
-<li><p>Inside Airbnb public data <a href="http://insideairbnb.com/" class="uri">http://insideairbnb.com/</a></p></li>
-<li><p>Kaggle Dataset <a href="https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data" class="uri">https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data</a></p></li>
+<li><p>Inside Airbnb public data <a href="http://insideairbnb.com/" class="external-link uri">http://insideairbnb.com/</a></p></li>
+<li><p>Kaggle Dataset <a href="https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data" class="external-link uri">https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data</a></p></li>
 </ul>
 </div>
 </div>
@@ -165,44 +163,54 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/qiushiyan/nyclodging/">https://​github.com/​qiushiyan/​nyclodging/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/qiushiyan/nyclodging/issues">https://​github.com/​qiushiyan/​nyclodging/​issues</a>
-</li>
+<li><a href="https://github.com/qiushiyan/nyclodging/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/qiushiyan/nyclodging/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://qiushiyan.shinyapps.io/nyclodging/" class="external-link">See shiny app</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing nyclodging</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Qiushi Yan <br><small class="roles"> Maintainer, author </small>  </li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Qiushi Yan.</p>
+  <p>Developed by .</p>
 </div>
 
 <div class="pkgdown">
-  <p>Made with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1, using <a href="https://preferably.amirmasoudabdol.name/?source=footer">preferably</a> template.</p>
+  <p>Made with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> , using <a href="https://preferably.amirmasoudabdol.name/?source=footer" class="external-link">preferably</a> template.</p>
 </div>
 
       </footer>
@@ -210,6 +218,8 @@
 
   
 
+
+  
 
   </body>
 </html>

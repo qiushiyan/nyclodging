@@ -49,7 +49,8 @@ remotes::install_github("qiushiyan/nyclodging")
 To start the shiny app locally
 
 ``` r
-nyclodging::run_app()
+library(nyclodging)
+run_app()
 ```
 
 ## Source

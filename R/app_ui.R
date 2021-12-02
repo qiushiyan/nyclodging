@@ -1,6 +1,6 @@
 #' The application User-Interface
-#' 
-#' @param request Internal parameter for `{shiny}`. 
+#'
+#' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
 #' @import shiny
 #' @importFrom waiter useWaiter useWaitress
@@ -10,11 +10,11 @@ app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
-    bootstrapLib(bslib::bs_theme(bootswatch = "yeti")), 
-    useWaiter(), 
-    useWaitress(), 
-    useShinyFeedback(), 
-    # Your application UI logic 
+    bootstrapLib(bslib::bs_theme(bootswatch = "yeti")),
+    useWaiter(),
+    useWaitress(),
+    useShinyFeedback(),
+    # Your application UI logic
     tagList(
       nav_(
         "Explore Airbnb listings in NYC",
@@ -24,55 +24,55 @@ app_ui <- function(request) {
           "text" = "Prediction",
           "distribution" = "Distribution",
           "relationship" = "Relationship",
-          "gallery" = "Gallery" 
-          
+          "gallery" = "Gallery"
+
         )
-      ), 
+      ),
       tags$div(
-        class = "container", 
+        class = "container",
         fluidRow(
           id = "dataset",
           mod_dataset_ui("about")
-        ) %>% undisplay(), 
+        ) %>% undisplay(),
         fluidRow(
-          id = "spatial", 
+          id = "spatial",
           mod_spatial_ui("spatial")
-        ) %>% undisplay(), 
+        ) %>% undisplay(),
         fluidRow(
-          id = "text", 
+          id = "text",
           mod_text_ui("text")
-        ) %>% undisplay(), 
+        ) %>% undisplay(),
         fluidRow(
-          id = "distribution", 
+          id = "distribution",
           mod_dist_ui("dist")
         ) %>% undisplay(),
         fluidRow(
-          id = "relationship", 
+          id = "relationship",
           mod_relation_ui("relation")
         ) %>% undisplay(),
         fluidRow(
           id = "gallery",
-          mod_gallery_ui("gallery"), 
-        ) %>% undisplay(), 
+          mod_gallery_ui("gallery"),
+        ) %>% undisplay(),
       )
     )
   )
 }
 
 #' Add external Resources to the Application
-#' 
-#' This function is internally used to add external 
-#' resources inside the Shiny application. 
-#' 
+#'
+#' This function is internally used to add external
+#' resources inside the Shiny application.
+#'
 #' @import shiny
 #' @importFrom golem add_resource_path activate_js favicon bundle_resources
 #' @noRd
 golem_add_external_resources <- function(){
-  
+
   add_resource_path(
     'www', app_sys('app/www')
   )
- 
+
   tags$head(
     favicon(),
     bundle_resources(
@@ -96,14 +96,14 @@ golem_add_external_resources <- function(){
       crossorigin="anonymous"
     ),
     tags$link(
-      rel="stylesheet", 
-      type="text/css", 
+      rel="stylesheet",
+      type="text/css",
       href="www/custom.css"
-    ), 
+    ),
     tags$script(src = "www/script.js"),
     tags$script(src = "www/utils.js"),
     # Add here other external resources
-    # for example, you can add shinyalert::useShinyalert() 
+    # for example, you can add shinyalert::useShinyalert()
   )
 }
 

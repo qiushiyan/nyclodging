@@ -4,9 +4,9 @@
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
-#' @noRd 
+#' @noRd
 #'
-#' @importFrom shiny NS tagList 
+#' @importFrom shiny NS tagList
 #' @importFrom DT DTOutput renderDT
 mod_dataset_ui <- function(id){
   ns <- NS(id)
@@ -15,30 +15,30 @@ mod_dataset_ui <- function(id){
       includeMarkdown(
         app_sys("app/md/dataset.md")
       ),
-      h4("sample table"), 
+      h4("sample table"),
       DTOutput(ns("datatable"))
     )
   )
 }
-    
+
 #' dataset Server Functions
 #'
-#' @noRd 
+#' @noRd
 mod_dataset_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
-  
+
     output$datatable <- renderDT({
-      head(listings %>% 
+      head(listings %>%
              select(-host_id,
-                    -neighbourhood, 
-                    -reviews_per_month, 
-                    -last_review_date, 
-                    -available_days), 
-           100) 
+                    -neighbourhood,
+                    -reviews_per_month,
+                    -last_review_date,
+                    -available_days),
+           100)
       }
     )
   })
 }
-    
+
 

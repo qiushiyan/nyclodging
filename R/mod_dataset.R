@@ -13,7 +13,7 @@ mod_dataset_ui <- function(id){
   tagList(
     col_12(
       includeMarkdown(
-        app_sys("app/www/dataset.md")
+        app_sys("app/md/dataset.md")
       ),
       h4("sample table"), 
       DTOutput(ns("datatable"))

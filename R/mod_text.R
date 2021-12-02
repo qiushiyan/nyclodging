@@ -82,7 +82,7 @@ mod_text_server <- function(id) {
     
     nyc_borough <- nyc_boundaries("borough") %>% st_transform(4326)
     
-    classification_model <- readr::read_rds(app_sys("app/www/classification_model.rds"))
+    classification_model <- readr::read_rds(app_sys("app/model/classification_model.rds"))
     
     result <- rv(
       predicted = NULL, 

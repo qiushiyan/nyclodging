@@ -20,7 +20,6 @@ predice_price <- function(classification_model, lon, lat, neighbourhood, descrip
     lat = lat, 
     neighbourhood_group = neighbourhood
   )
-  print(df_to_predict)
   
   # predict
   df_predicted <- augment(classification_model, df_to_predict) %>% 

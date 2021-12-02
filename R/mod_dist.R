@@ -227,6 +227,27 @@ mod_dist_server <- function(id, font_size = 16) {
             r$plot <- base_plot + 
               get(type)(position = "dodge")
           }
+          
+          # no position adjustment for box plot
+          else if (type == "geom_boxplot") {
+            r$code <- sprintf(
+              "ggplot(listings, aes(%s, fill = %s)) + 
+              %s() +
+              scale_color_manual(
+                values = color_values(
+                  1:length(unique(dplyr::pull(listings, %s))),
+                  palette = '%s' 
+                )
+              )", 
+              input$x, 
+              input$fill,  
+              type, 
+              input$fill, 
+              input$palette 
+            )
+            r$plot <- base_plot + 
+              get(type)()
+          }
 
           # position = "identity" for other plots 
           else {

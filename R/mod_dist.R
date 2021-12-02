@@ -110,7 +110,7 @@ mod_dist_server <- function(id, font_size = 16) {
     
     r <- rv(
       plot = ggplot(listings %>% slice_sample(n = 5000)) + 
-        geom_histogram(aes(price, fill = room_type)) + 
+        geom_histogram(aes(price, fill = room_type), position = "identity", alpha = 0.4) + 
         scale_fill_viridis_d() + 
         scale_x_log10() + 
         labs(title = "Distribution of price group by room type") + 
@@ -162,85 +162,111 @@ mod_dist_server <- function(id, font_size = 16) {
     
     # render plot action 
     observeEvent( input$render, {
-      if (is.numeric(listings[[input$x]])) {
-        xscale <- switch(
-          input$scale,
-          "original" = "scale_x_continuous", 
-          "log10" = "scale_x_log10"
-        )
-      } else {
-        xscale <- "scale_x_discrete"
-      }
-      
-      type <- switch(input$type, 
-                     "histogram" = "geom_histogram", 
-                     "density" = "geom_density", 
-                     "boxplot" = "geom_boxplot",
-                     "bar" = "geom_bar")
-      
-      
-      if (input$fill == "") {
-        r$plot <- ggplot(listings, aes(.data[[input$x]])) +
-          get(type)()
-        
-        r$code <- sprintf(
-          "ggplot(listings, aes(%s)) + 
-                %s()", 
-          input$x,
-          type 
-        )
+      if (input$x == "") {
+        showFeedbackWarning(
+          inputId = "x",
+          text = "please select a variable"
+        )  
       } 
       else {
-        r$plot <- ggplot(listings, aes(.data[[input$x]], 
-                                       fill = .data[[input$fill]])) +
-          get(type)() + 
-          scale_fill_manual(
-            values = color_values(
-              1:length(unique(dplyr::pull(listings, .data[[input$fill]]))), 
-              palette = input$palette
-            ))
+        if (is.numeric(listings[[input$x]])) {
+          xscale <- switch(
+            input$scale,
+            "original" = "scale_x_continuous", 
+            "log10" = "scale_x_log10"
+          )
+        } else {
+          xscale <- "scale_x_discrete"
+        }
         
-        r$code <- sprintf(
-          "ggplot(listings, aes(%s, fill = %s)) + 
-              %s() +
+        type <- switch(input$type, 
+                       "histogram" = "geom_histogram", 
+                       "density" = "geom_density", 
+                       "boxplot" = "geom_boxplot",
+                       "bar" = "geom_bar")
+        
+        # ungrouped plot
+        if (input$fill == "") {
+          r$plot <- ggplot(listings, aes(.data[[input$x]])) +
+            get(type)()
+          
+          r$code <- sprintf(
+            "ggplot(listings, aes(%s)) + 
+                %s()", 
+            input$x,
+            type 
+          )
+        } 
+        # grouped plot 
+        else {
+          base_plot <- ggplot(listings, aes(.data[[input$x]], 
+                                            fill = .data[[input$fill]])) +
+            scale_fill_manual(
+              values = color_values(
+                1:length(unique(dplyr::pull(listings, .data[[input$fill]]))), 
+                palette = input$palette
+              ))
+          
+          # position = "dodge" for bar plot 
+          if (type == "geom_bar") {
+            r$code <- sprintf(
+              "ggplot(listings, aes(%s, fill = %s)) + 
+              %s(position = 'dodge') +
               scale_color_manual(
                 values = color_values(
                   1:length(unique(dplyr::pull(listings, %s))),
                   palette = '%s' 
                 )
               )", 
-          input$x, 
-          input$fill,  
-          type, 
-          input$fill, 
-          input$palette 
-        )
-      }
-      
-      
-      r$plot <- r$plot +
-        get(input$theme)(base_size = font_size) +
-        get(xscale)()
-      
-      r$code <- sprintf(
-        '%s +
-          %s() + 
-          %s(base_size = %s)' 
-          ,
-        r$code, xscale, input$theme, font_size
-      )
-      
-      if (input$title != "") {
+              input$x, 
+              input$fill,  
+              type, 
+              input$fill, 
+              input$palette 
+            )
+            r$plot <- base_plot + 
+              get(type)(position = "dodge")
+          }
+
+          # position = "identity" for other plots 
+          else {
+            r$code <- sprintf(
+              "ggplot(listings, aes(%s, fill = %s)) + 
+                %s(position = 'identity', alpha = 0.4) +
+                scale_color_manual(
+                  values = color_values(
+                    1:length(unique(dplyr::pull(listings, %s))),
+                    palette = '%s' 
+                  )
+                )", 
+              input$x, 
+              input$fill,  
+              type, 
+              input$fill, 
+              input$palette 
+            )
+            r$plot <- base_plot + 
+              get(type)(position = "identity", alpha = 0.4)
+          }
+        }
+        
         r$plot <- r$plot +
+          get(xscale)() + 
           labs(title = input$title) + 
-          get(input$theme)(base_size = font_size) # re-add theme so it controls title text size
+          get(input$theme)(base_size = font_size) 
+        
+        
         r$code <- sprintf(
-          '%s +
-            labs(title = "%s")',
-          r$code, input$title
+          "%s +
+            %s() + 
+            labs(title = '%s') + 
+            %s(base_size = %s)"
+          ,
+          r$code, xscale, input$title, input$theme, font_size
         )
+        }
       }
-    })
+    )
     
     
     output$plot <- renderPlot({

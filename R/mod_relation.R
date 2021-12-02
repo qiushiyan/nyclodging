@@ -132,76 +132,86 @@ mod_relation_server <- function(id, font_size = 16) {
     
     
     observeEvent( input$render , {
-      xscale <- switch(
-        input$xscale,
-        "original" = "scale_x_continuous", 
-        "log10" = "scale_x_log10"
-      )
-      yscale <- switch(
-        input$yscale, 
-        "original" = "scale_x_continous",
-        "log10" = "scale_x_log10"
-      )
-      
-      if (input$group != "") {
-        r$plot <- grouped_ggscatterstats(
-          listings, 
-          x = !!input$x, 
-          y = !!input$y, 
-          grouping.var = !!input$group, 
-          ggplot.component = list(
-            get(xscale)(), 
-            get(yscale)()
-          ), 
-          ggtheme = get(input$theme)(base_size = font_size), 
-          annotation.args = list(title = input$title),
-          plotgrid.args = list(ncol = 1)
-        ) 
-        
-        r$code <- sprintf("
-          ggstatsplot::grouped_ggscatterstats(
-            listings,
-            x = %s,
-            y = %s,
-            grouping.var = %s,
-            ggplot.component = list(
-              %s(,
-              %s()
-            ),
-            ggtheme = %s(base_size = %s),
-            annotation.args = list(title = '%s'),
-            plotgrid.args = list(ncol = 1)
+        if (input$x == "") {
+          showFeedbackWarning(
+            inputId = "x", 
+            "please select a variable"
+          )
+        } else if (input$y == "") {
+          showFeedbackWarning(
+            inputId = "y", 
+            "please select a variable"
+          )
+        } else {
+          xscale <- switch(
+            input$xscale,
+            "original" = "scale_x_continuous", 
+            "log10" = "scale_x_log10"
+          )
+          yscale <- switch(
+            input$yscale, 
+            "original" = "scale_x_continuous",
+            "log10" = "scale_x_log10"
+          )
+          
+          if (input$group != "") {
+            r$plot <- grouped_ggscatterstats(
+              listings, 
+              x = !!input$x, 
+              y = !!input$y, 
+              grouping.var = !!input$group, 
+              ggplot.component = list(
+                get(xscale)(), 
+                get(yscale)()
+              ), 
+              ggtheme = get(input$theme)(base_size = font_size), 
+              annotation.args = list(title = input$title),
+              plotgrid.args = list(ncol = 1)
+            ) 
+            
+            r$code <- sprintf("
+              ggstatsplot::grouped_ggscatterstats(
+                listings,
+                x = %s,
+                y = %s,
+                grouping.var = %s,
+                ggplot.component = list(
+                  %s(),
+                  %s()
+                ),
+                ggtheme = %s(base_size = %s),
+                annotation.args = list(title = '%s'),
+                plotgrid.args = list(ncol = 1)
           )", input$x, input$y, input$group, xscale, yscale, input$theme, font_size, input$title
-        )
-        print("code for group")
-      } else {
-        r$plot <- ggscatterstats(
-          listings, 
-          x = !!input$x, 
-          y = !!input$y, 
-          ggplot.component = list(
-            get(xscale)(), 
-            get(yscale)()
-          ), 
-          ggtheme = get(input$theme)(base_size = font_size), 
-          annotation.args = list(title = input$title),
-        )
-
-        r$code <- sprintf("
-          ggstatsplot::ggscatterstats(
-            listings,
-            x = %s,
-            y = %s,
-            ggplot.component = list(
-              %s(),
-              %s()
-            ),
-            ggtheme = %s(base_size = %s),
-            annotation.args = list(title = '%s')
+            )
+            print("code for group")
+          } else {
+            r$plot <- ggscatterstats(
+              listings, 
+              x = !!input$x, 
+              y = !!input$y, 
+              ggplot.component = list(
+                get(xscale)(), 
+                get(yscale)()
+              ), 
+              ggtheme = get(input$theme)(base_size = font_size), 
+              annotation.args = list(title = input$title),
+            )
+            
+            r$code <- sprintf("
+              ggstatsplot::ggscatterstats(
+                listings,
+                x = %s,
+                y = %s,
+                ggplot.component = list(
+                  %s(),
+                  %s()
+                ),
+                ggtheme = %s(base_size = %s),
+                annotation.args = list(title = '%s')
           )", input$x, input$y, xscale, yscale, input$theme, font_size, input$title)
-        print("code for non-group")
-        
-      }
+          }
+        }
      })
     
     

@@ -3,7 +3,6 @@
 #' @param input,output,session Internal parameters for {shiny}. 
 #'     DO NOT REMOVE.
 #' @import shiny
-#' @importFrom golem get_golem_config
 #' @noRd
 app_server <- function( input, output, session ) {
   # Your application server logic 

@@ -98,7 +98,7 @@ golem_add_external_resources <- function(){
     tags$link(
       rel="stylesheet",
       type="text/css",
-      href="www/custom.css"
+      href="www/style.css"
     ),
     tags$script(src = "www/script.js"),
     tags$script(src = "www/utils.js"),

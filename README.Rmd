@@ -50,6 +50,14 @@ library(nyclodging)
 run_app()
 ```
 
+Or if you prefer using docker 
+
+```
+docker pull qiushiyan/nyclodging
+docker run -p 8080:80 --rm qiushiyan/nyclodging
+```
+
+and then navigate to http://localhost:8080/
 
 ## Source 
 

@@ -10,7 +10,18 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 <!-- badges: end -->
 
 `nyclogding` contains shiny application and documentation for analyzing
-Airbnb listings in New York City in 2019.
+Airbnb listings in New York City in 2019. It includes:
+
+-   housing price prediction using text data with
+    [tidymodels](https://www.tidymodels.org/)
+
+-   spatial analysis and visualization with sf and tmap
+
+-   various user-defined statistical visualization
+
+![](./screenshot.png)
+
+Example dataset:
 
 ``` r
 nyclodging::listings

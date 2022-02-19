@@ -7,6 +7,7 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+
 <!-- badges: end -->
 
 `nyclogding` contains shiny application and documentation for analyzing
@@ -19,7 +20,7 @@ Airbnb listings in New York City in 2019. It includes:
 
 -   various user-defined statistical visualization
 
-![](./screenshot.png)
+![](https://github.com/qiushiyan/nyclodging/blob/main/screenshot.png?raw=true)
 
 Example dataset:
 

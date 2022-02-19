@@ -17,31 +17,30 @@ knitr::opts_chunk$set(
 # nyclodging
 
 <!-- badges: start -->
+
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+
 <!-- badges: end -->
 
 `nyclogding` contains shiny application and documentation for analyzing Airbnb listings in New York City in 2019. It includes:
 
-- housing price prediction using text data with [tidymodels](https://www.tidymodels.org/)
+-   housing price prediction using text data with [tidymodels](https://www.tidymodels.org/)
 
-- spatial analysis and visualization with sf and tmap
+-   spatial analysis and visualization with sf and tmap
 
-- various user-defined statistical visualization 
+-   various user-defined statistical visualization
 
+![](https://github.com/qiushiyan/nyclodging/blob/main/screenshot.png?raw=true)
 
-![](./screenshot.png)
-
-Example dataset: 
+Example dataset:
 
 ```{r}
 nyclodging::listings
 ```
 
+Shiny app: <https://qiushiyan.shinyapps.io/nyclodging/>
 
-Shiny app:  https://qiushiyan.shinyapps.io/nyclodging/
-
-Package documentation: https://qiushiyan.github.io/nyclodging
-
+Package documentation: <https://qiushiyan.github.io/nyclodging>
 
 ## Installation
 
@@ -60,23 +59,15 @@ library(nyclodging)
 run_app()
 ```
 
+Or if you prefer using docker
 
+    docker pull qiushiyan/nyclodging
+    docker run -p 8080:80 --rm qiushiyan/nyclodging
 
+and then navigate to <http://localhost:8080/>
 
+## Source
 
-Or if you prefer using docker 
+-   Inside Airbnb public data <http://insideairbnb.com/>
 
-```
-docker pull qiushiyan/nyclodging
-docker run -p 8080:80 --rm qiushiyan/nyclodging
-```
-
-and then navigate to http://localhost:8080/
-
-## Source 
-
-- Inside Airbnb public data http://insideairbnb.com/
-
-- Kaggle Dataset https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data
-
-
+-   Kaggle Dataset <https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data>

@@ -20,7 +20,7 @@ Airbnb listings in New York City in 2019. It includes:
 
 -   various user-defined statistical visualization
 
-![](https://github.com/qiushiyan/nyclodging/blob/main/screenshot.png?raw=true)
+![](https://github.com/qiushiyan/images/blob/main/nyclodging/screenshot.png?raw=true)
 
 Example dataset:
 

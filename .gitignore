@@ -9,5 +9,6 @@ rsconnect
 /doc/
 /Meta/
 *_cache/
+.vscode/
 renv/*
 !renv/activate.R

@@ -21,12 +21,16 @@ predice_price <- function(classification_model, lon, lat, neighbourhood, descrip
     neighbourhood_group = neighbourhood
   )
   
+  
   # predict
   df_predicted <- augment(classification_model, df_to_predict) %>% 
-    select(last_col(0:6)) %>% 
-    tidyr::pivot_longer(everything(), names_to = "class", values_to = "prob") %>% 
-    mutate(class = gsub("\\.pred_", "", class),
-           class = factor(class, levels = rev(c("< 100", "100 to 200", "200 to 300", "300 to 400", "400 to 500", "500 to 1000", "> 1000"))))
+    select(starts_with(".pred"), -`.pred_class`) |> 
+    tidyr::pivot_longer(everything(), 
+                        names_to = "class", 
+                        values_to = "prob",
+                        names_prefix = ".pred_") %>% 
+    mutate(class = factor(class, levels = rev(c("< 100", "100 to 200", "200 to 300", "300 to 400", "400 to 500", "500 to 1000", "> 1000"))))
+  
   
   df_predicted
 }

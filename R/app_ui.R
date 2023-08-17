@@ -19,19 +19,18 @@ app_ui <- function(request) {
       nav_(
         "Explore Airbnb listings in NYC",
         c(
-          "dataset" = "Dataset",
+          "about" = "About",
           "spatial" = "Spatial",
           "text" = "Prediction",
           "distribution" = "Distribution",
           "relationship" = "Relationship",
           "gallery" = "Gallery"
-
         )
       ),
       tags$div(
         class = "container",
         fluidRow(
-          id = "dataset",
+          id = "about",
           mod_dataset_ui("about")
         ) %>% undisplay(),
         fluidRow(

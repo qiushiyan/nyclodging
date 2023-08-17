@@ -35,7 +35,7 @@ nav_ <- function(name, x) {
         var h = parseInt($("nav").outerHeight()) + 30;
         $(".row").css("padding-top", h + "px");  
      '),
-     style = "cursor:pointer"
+      style = "cursor:pointer"
     ), 
     # For portait mode
     tags$button(
@@ -63,7 +63,7 @@ nav_ <- function(name, x) {
         )
       )
     )
-  ) %>% tags$div(class = "plpl")
+  ) %>% tags$header(class = "plpl")
 }
 
 #' @importFrom htmltools tags 

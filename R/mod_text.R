@@ -144,7 +144,6 @@ mod_text_server <- function(id) {
           lat1 = 40.4, 
           lat2 = 41
         ) 
-
         })
     
     output$probs <- renderPlot({

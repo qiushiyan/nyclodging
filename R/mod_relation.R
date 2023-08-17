@@ -51,7 +51,7 @@ mod_relation_ui <- function(id) {
           )
       )
     ),
-    HTML("&nbsp;"),
+    tags$br(),
     col_12(
       tags$p(
         "Click on the graph to see the code"

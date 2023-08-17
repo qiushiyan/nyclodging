@@ -67,8 +67,6 @@ mod_gallery_server <- function(id) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-
-
     output$room_type_bar <- renderEcharts4r(
       listings_cut %>%
         filter(!is.na(price_cut)) %>%

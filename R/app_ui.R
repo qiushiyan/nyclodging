@@ -66,38 +66,37 @@ app_ui <- function(request) {
 #' @import shiny
 #' @importFrom golem add_resource_path activate_js favicon bundle_resources
 #' @noRd
-golem_add_external_resources <- function(){
-
+golem_add_external_resources <- function() {
   add_resource_path(
-    'www', app_sys('app/www')
+    "www", app_sys("app/www")
   )
 
   tags$head(
     favicon(),
     bundle_resources(
-      path = app_sys('app/www'),
-      app_title = 'nyclodging'
+      path = app_sys("app/www"),
+      app_title = "nyclodging"
     ),
     tags$title("Airbnb listings in NYC"),
     # Add here all the external resources
     # If you have a custom.css in the inst/app/www
     # Or for example, you can add shinyalert::useShinyalert() here
     tags$link(
-      rel="stylesheet",
-      type="text/css",
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css",
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T",
-      crossorigin="anonymous"
+      rel = "stylesheet",
+      type = "text/css",
+      href = "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css",
+      integrity = "sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T",
+      crossorigin = "anonymous"
     ),
     tags$script(
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js",
-      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM",
-      crossorigin="anonymous"
+      src = "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js",
+      integrity = "sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM",
+      crossorigin = "anonymous"
     ),
     tags$link(
-      rel="stylesheet",
-      type="text/css",
-      href="www/style.css"
+      rel = "stylesheet",
+      type = "text/css",
+      href = "www/style.css"
     ),
     tags$script(src = "www/script.js"),
     tags$script(src = "www/utils.js"),
@@ -105,4 +104,3 @@ golem_add_external_resources <- function(){
     # for example, you can add shinyalert::useShinyalert()
   )
 }
-

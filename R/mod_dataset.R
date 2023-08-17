@@ -8,7 +8,7 @@
 #'
 #' @importFrom shiny NS tagList
 #' @importFrom DT DTOutput renderDT
-mod_dataset_ui <- function(id){
+mod_dataset_ui <- function(id) {
   ns <- NS(id)
   tagList(
     col_12(
@@ -24,21 +24,22 @@ mod_dataset_ui <- function(id){
 #' dataset Server Functions
 #'
 #' @noRd
-mod_dataset_server <- function(id){
-  moduleServer( id, function(input, output, session){
+mod_dataset_server <- function(id) {
+  moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     output$datatable <- renderDT({
-      head(listings %>%
-             select(-host_id,
-                    -neighbourhood,
-                    -reviews_per_month,
-                    -last_review_date,
-                    -available_days),
-           100)
-      }
-    )
+      head(
+        listings %>%
+          select(
+            -host_id,
+            -neighbourhood,
+            -reviews_per_month,
+            -last_review_date,
+            -available_days
+          ),
+        100
+      )
+    })
   })
 }
-
-

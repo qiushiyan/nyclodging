@@ -1,7 +1,7 @@
 #' Airbnb listings in New York City, 2019
 #'
-#' Includes measurements on host, room description, room type, reviews, 
-#' availability, geographic location. 
+#' Includes measurements on host, room description, room type, reviews,
+#' availability, geographic location.
 #'
 #' @format A 48,895 × 15 tibble :
 #' \describe{
@@ -25,5 +25,5 @@
 #' @source {Kaggle Dataset} \url{https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data}
 "listings"
 
-#' map data combined with NYC tract id in simple features 
+#' map data combined with NYC tract id in simple features
 "map_df"

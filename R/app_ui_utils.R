@@ -1,7 +1,7 @@
 #' utility functions for explore module
 #' @importFrom styler style_text
 #' @import shiny
-#' @param text 
+#' @param text
 #' @noRd
 modal <- function(text) {
   modalDialog(
@@ -20,42 +20,42 @@ modal <- function(text) {
 }
 
 #' make nav menu
-#' @importFrom htmltools tags 
+#' @importFrom htmltools tags
 #' @importFrom glue glue
 #' @noRd
 nav_ <- function(name, x) {
   tags$nav(
-    class="navbar navbar-expand-lg fixed-top ", 
+    class = "navbar navbar-expand-lg fixed-top ",
     tags$h5(
-      name, 
+      name,
       onClick = glue('
         $( ".row" ).hide();
         $( ".row" ).first().show();
         $( ".nav-link" ).first().addClass("active");
         var h = parseInt($("nav").outerHeight()) + 30;
-        $(".row").css("padding-top", h + "px");  
+        $(".row").css("padding-top", h + "px");
      '),
       style = "cursor:pointer"
-    ), 
+    ),
     # For portait mode
     tags$button(
-      class="navbar-toggler", 
-      type="button",
-      `data-toggle`="collapse",
-      `data-target`="#menu",
-      `aria-controls`="menu",
-      `aria-expanded`="false" ,
-      `aria-label`="Toggle navigation",
+      class = "navbar-toggler",
+      type = "button",
+      `data-toggle` = "collapse",
+      `data-target` = "#menu",
+      `aria-controls` = "menu",
+      `aria-expanded` = "false",
+      `aria-label` = "Toggle navigation",
       tags$div(
-        class="navbar-toggler-icon", 
+        class = "navbar-toggler-icon",
         HTML('<img src="https://img.icons8.com/metro/26/000000/menu.png">')
       )
     ),
     tags$div(
-      class="collapse navbar-collapse",
-      id="menu", 
+      class = "collapse navbar-collapse",
+      id = "menu",
       tags$ul(
-        class="navbar-nav mr-4", 
+        class = "navbar-nav mr-4",
         tagList(
           purrr::imap(
             x, nav_item
@@ -66,14 +66,14 @@ nav_ <- function(name, x) {
   ) %>% tags$header(class = "plpl")
 }
 
-#' @importFrom htmltools tags 
-#' @importFrom glue glue 
+#' @importFrom htmltools tags
+#' @importFrom glue glue
 #' @noRd
 nav_item <- function(label, id) {
   tags$li(
-    class="nav-item",
+    class = "nav-item",
     tags$a(
-      class="nav-link", 
+      class = "nav-link",
       `data-value` = label,
       onclick = glue('
         $( "a.nav-link" ).removeClass("active");
@@ -81,7 +81,7 @@ nav_item <- function(label, id) {
         $( ".row" ).hide();
         $( `#{id}` ).show();
         $( `#{id}` ).trigger("show");
-        $( `#{id}` ).trigger("shown");               
+        $( `#{id}` ).trigger("shown");
       '),
       label
     )
